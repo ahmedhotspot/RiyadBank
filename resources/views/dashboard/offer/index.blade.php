@@ -1,6 +1,6 @@
 @extends('dashboard.layout.master')
 
-@section('title', 'Offers Management')
+@section('title', __('dashboard.offers'))
 
 @section('content')
 <div class="d-flex flex-column flex-column-fluid">
@@ -8,15 +8,15 @@
     <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
         <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Offers Management</h1>
+                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('dashboard.offers') }}</h1>
                 <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                     <li class="breadcrumb-item text-muted">
-                        <a href="{{ route('customers.index') }}" class="text-muted text-hover-primary">Dashboard</a>
+                        <a href="{{ route('customers.index') }}" class="text-muted text-hover-primary">{{ __('dashboard.dashboard') }}</a>
                     </li>
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-400 w-5px h-2px"></span>
                     </li>
-                    <li class="breadcrumb-item text-muted">Offers</li>
+                    <li class="breadcrumb-item text-muted">{{ __('dashboard.offers') }}</li>
                 </ul>
             </div>
             <div class="d-flex align-items-center gap-2 gap-lg-3">
@@ -44,7 +44,7 @@
                                 <span class="path1"></span>
                                 <span class="path2"></span>
                             </i>
-                            <input type="text" id="search-input" class="form-control form-control-solid w-250px ps-13" placeholder="Search offers..." />
+                            <input type="text" id="search-input" class="form-control form-control-solid w-250px ps-13" placeholder="{{ __('dashboard.search') }}" />
                         </div>
                         <!--end::Search-->
                     </div>
@@ -59,13 +59,13 @@
                                     <span class="path1"></span>
                                     <span class="path2"></span>
                                 </i>
-                                Filter
+                                {{ __('dashboard.filter') }}
                             </button>
                             <!--begin::Menu 1-->
                             <div class="menu menu-sub menu-sub-dropdown w-300px w-md-325px" data-kt-menu="true">
                                 <!--begin::Header-->
                                 <div class="px-7 py-5">
-                                    <div class="fs-5 text-dark fw-bold">Filter Options</div>
+                                    <div class="fs-5 text-dark fw-bold">{{ __('dashboard.filter') }}</div>
                                 </div>
                                 <!--end::Header-->
                                 <!--begin::Separator-->
@@ -75,27 +75,27 @@
                                 <div class="px-7 py-5" data-kt-offer-table-filter="form">
                                     <!--begin::Input group-->
                                     <div class="mb-10">
-                                        <label class="form-label fs-6 fw-semibold">Status:</label>
+                                        <label class="form-label fs-6 fw-semibold">{{ __('dashboard.status') }}:</label>
                                         <select class="form-select form-select-solid fw-bold" id="status-filter" data-placeholder="Select option">
-                                            <option value="">All Statuses</option>
-                                            <option value="FINAL_OFFER_GENERATED">Final Offer Generated</option>
-                                            <option value="OFFER_PENDING">Offer Pending</option>
-                                            <option value="OFFER_APPROVED">Offer Approved</option>
-                                            <option value="OFFER_REJECTED">Offer Rejected</option>
-                                            <option value="OFFER_EXPIRED">Offer Expired</option>
+                                            <option value="">{{ __('dashboard.all_statuses') }}</option>
+                                            <option value="FINAL_OFFER_GENERATED">{{ __('dashboard.final_offer_generated') }}</option>
+                                            <option value="OFFER_PENDING">{{ __('dashboard.offer_pending') }}</option>
+                                            <option value="OFFER_APPROVED">{{ __('dashboard.offer_approved') }}</option>
+                                            <option value="OFFER_REJECTED">{{ __('dashboard.offer_rejected') }}</option>
+                                            <option value="OFFER_EXPIRED">{{ __('dashboard.offer_expired') }}</option>
                                         </select>
                                     </div>
                                     <!--end::Input group-->
                                     <!--begin::Input group-->
                                     <div class="mb-10">
-                                        <label class="form-label fs-6 fw-semibold">Date:</label>
+                                        <label class="form-label fs-6 fw-semibold">{{ __('dashboard.date') }}:</label>
                                         <input class="form-control form-control-solid" id="date-filter" type="date" />
                                     </div>
                                     <!--end::Input group-->
                                     <!--begin::Actions-->
                                     <div class="d-flex justify-content-end">
-                                        <button type="reset" class="btn btn-light btn-active-light-primary fw-semibold me-2 px-6" data-kt-menu-dismiss="true" onclick="resetFilters()">Reset</button>
-                                        <button type="submit" class="btn btn-primary fw-semibold px-6" data-kt-menu-dismiss="true" onclick="applyFilters()">Apply</button>
+                                        <button type="reset" class="btn btn-light btn-active-light-primary fw-semibold me-2 px-6" data-kt-menu-dismiss="true" onclick="resetFilters()">{{ __('dashboard.cancel') }}</button>
+                                        <button type="submit" class="btn btn-primary fw-semibold px-6" data-kt-menu-dismiss="true" onclick="applyFilters()">{{ __('dashboard.filter') }}</button>
                                     </div>
                                     <!--end::Actions-->
                                 </div>
@@ -122,14 +122,14 @@
                                             <input class="form-check-input" type="checkbox" value="1" data-kt-check="true" data-kt-check-target=".widget-13-check" />
                                         </div>
                                     </th>
-                                    <th class="min-w-150px">Offer</th>
-                                    <th class="min-w-140px">Customer</th>
-                                    <th class="min-w-120px">Status</th>
-                                    <th class="min-w-120px">Loan Amount</th>
-                                    <th class="min-w-120px">Monthly Payment</th>
-                                    <th class="min-w-100px">Period</th>
-                                    <th class="min-w-120px">Created Date</th>
-                                    <th class="min-w-100px text-end">Actions</th>
+                                    <th class="min-w-150px">{{ __('dashboard.offer') }}</th>
+                                    <th class="min-w-140px">{{ __('dashboard.customer') }}</th>
+                                    <th class="min-w-120px">{{ __('dashboard.status') }}</th>
+                                    <th class="min-w-120px">{{ __('dashboard.loan_amount') }}</th>
+                                    <th class="min-w-120px">{{ __('dashboard.monthly_payment') }}</th>
+                                    <th class="min-w-100px">{{ __('dashboard.period') }}</th>
+                                    <th class="min-w-120px">{{ __('dashboard.created_date') }}</th>
+                                    <th class="min-w-100px text-end">{{ __('dashboard.actions') }}</th>
                                 </tr>
                             </thead>
                             <!--end::Table head-->

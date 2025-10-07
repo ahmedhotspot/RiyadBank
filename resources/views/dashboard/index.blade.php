@@ -1,6 +1,6 @@
 @extends('dashboard.layout.master')
 
-@section('title', 'Dashboard')
+@section('title', __('dashboard.dashboard'))
 
 @section('content')
 <div id="kt_content_container" class="container-xxl">
@@ -21,7 +21,7 @@
                     </span>
                     <!--end::Svg Icon-->
                     <div class="text-white fw-bolder fs-2 mb-2 mt-5">{{ number_format($totalCustomers) }}</div>
-                    <div class="fw-bold text-white">Total Customers</div>
+                    <div class="fw-bold text-white">{{ __('dashboard.total_customers') }}</div>
                 </div>
                 <!--end::Body-->
             </div>
@@ -44,7 +44,7 @@
                     </span>
                     <!--end::Svg Icon-->
                     <div class="text-white fw-bolder fs-2 mb-2 mt-5">{{ number_format($totalOffers) }}</div>
-                    <div class="fw-bold text-white">Total Offers</div>
+                    <div class="fw-bold text-white">{{ __('dashboard.total_offers') }}</div>
                 </div>
                 <!--end::Body-->
             </div>
@@ -69,7 +69,7 @@
                     </span>
                     <!--end::Svg Icon-->
                     <div class="text-white fw-bolder fs-2 mb-2 mt-5">{{ number_format($approvedOffers) }}</div>
-                    <div class="fw-bold text-white">Approved Offers</div>
+                    <div class="fw-bold text-white">{{ __('dashboard.approved_offers') }}</div>
                 </div>
                 <!--end::Body-->
             </div>
@@ -92,7 +92,7 @@
                     </span>
                     <!--end::Svg Icon-->
                     <div class="text-white fw-bolder fs-2 mb-2 mt-5">{{ number_format($totalLoanAmount / 1000000, 1) }}M</div>
-                    <div class="fw-bold text-white">Total Loans (SAR)</div>
+                    <div class="fw-bold text-white">{{ __('dashboard.total_loans') }}</div>
                 </div>
                 <!--end::Body-->
             </div>
@@ -111,8 +111,8 @@
                 <!--begin::Header-->
                 <div class="card-header border-0 pt-5">
                     <h3 class="card-title align-items-start flex-column">
-                        <span class="card-label fw-bolder fs-3 mb-1">Offers Statistics</span>
-                        <span class="text-muted fw-bold fs-7">By Status</span>
+                        <span class="card-label fw-bolder fs-3 mb-1">{{ __('dashboard.offers_statistics') }}</span>
+                        <span class="text-muted fw-bold fs-7">{{ __('dashboard.by_status') }}</span>
                     </h3>
                 </div>
                 <!--end::Header-->
@@ -146,7 +146,7 @@
             <div class="card card-xxl-stretch">
                 <!--begin::Header-->
                 <div class="card-header border-0">
-                    <h3 class="card-title fw-bolder text-dark">Recent Customers</h3>
+                    <h3 class="card-title fw-bolder text-dark">{{ __('dashboard.recent_customers') }}</h3>
                     <div class="card-toolbar">
                         <a href="{{ route('customers.index') }}" class="btn btn-sm btn-light-primary">
                             <span class="svg-icon svg-icon-2">
@@ -155,7 +155,7 @@
                                     <path d="M15.4343 12.5657L11.25 16.75C10.8358 17.1642 10.8358 17.8358 11.25 18.25C11.6642 18.6642 12.3358 18.6642 12.75 18.25L18.2929 12.7071C18.6834 12.3166 18.6834 11.6834 18.2929 11.2929L12.75 5.75C12.3358 5.33579 11.6642 5.33579 11.25 5.75C10.8358 6.16421 10.8358 6.83579 11.25 7.25L15.4343 11.4343C15.7467 11.7467 15.7467 12.2533 15.4343 12.5657Z" fill="black"/>
                                 </svg>
                             </span>
-                            View All
+                            {{ __('dashboard.view_all') }}
                         </a>
                     </div>
                 </div>
@@ -204,12 +204,12 @@
                 <!--begin::Header-->
                 <div class="card-header border-0 pt-5">
                     <h3 class="card-title align-items-start flex-column">
-                        <span class="card-label fw-bolder fs-3 mb-1">Recent Offers</span>
-                        <span class="text-muted mt-1 fw-bold fs-7">Latest offers added to the system</span>
+                        <span class="card-label fw-bolder fs-3 mb-1">{{ __('dashboard.recent_offers') }}</span>
+                        <span class="text-muted mt-1 fw-bold fs-7">{{ __('dashboard.latest_offers_added') }}</span>
                     </h3>
                     <div class="card-toolbar">
                         <a href="{{ route('offers.index') }}" class="btn btn-sm btn-light-primary">
-                            View All Offers
+                            {{ __('dashboard.view_all_offers') }}
                         </a>
                     </div>
                 </div>
@@ -223,11 +223,11 @@
                             <!--begin::Table head-->
                             <thead>
                                 <tr class="fw-bolder text-muted">
-                                    <th class="min-w-150px">Customer</th>
-                                    <th class="min-w-140px">Loan Amount</th>
-                                    <th class="min-w-120px">Status</th>
-                                    <th class="min-w-120px">Created Date</th>
-                                    <th class="min-w-100px text-end">Actions</th>
+                                    <th class="min-w-150px">{{ __('dashboard.customer') }}</th>
+                                    <th class="min-w-140px">{{ __('dashboard.loan_amount') }}</th>
+                                    <th class="min-w-120px">{{ __('dashboard.status') }}</th>
+                                    <th class="min-w-120px">{{ __('dashboard.created_date') }}</th>
+                                    <th class="min-w-100px text-end">{{ __('dashboard.actions') }}</th>
                                 </tr>
                             </thead>
                             <!--end::Table head-->

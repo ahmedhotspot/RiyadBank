@@ -1,6 +1,6 @@
 @extends('dashboard.layout.master')
 
-@section('title', 'Offer Details - ' . $offer->offer_id)
+@section('title', __('dashboard.offer_details') . ' - ' . $offer->offer_id)
 
 @section('content')
 <div class="d-flex flex-column flex-column-fluid">
@@ -8,16 +8,16 @@
     <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
         <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Offer Details</h1>
+                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('dashboard.offer_details') }}</h1>
                 <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                     <li class="breadcrumb-item text-muted">
-                        <a href="{{ route('customers.index') }}" class="text-muted text-hover-primary">Dashboard</a>
+                        <a href="{{ route('customers.index') }}" class="text-muted text-hover-primary">{{ __('dashboard.dashboard') }}</a>
                     </li>
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-400 w-5px h-2px"></span>
                     </li>
                     <li class="breadcrumb-item text-muted">
-                        <a href="{{ route('offers.index') }}" class="text-muted text-hover-primary">Offers</a>
+                        <a href="{{ route('offers.index') }}" class="text-muted text-hover-primary">{{ __('dashboard.offers') }}</a>
                     </li>
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-400 w-5px h-2px"></span>
@@ -31,7 +31,7 @@
                         <span class="path1"></span>
                         <span class="path2"></span>
                     </i>
-                    Back to Offers
+                    {{ __('dashboard.back_to_offers') }}
                 </a>
             </div>
         </div>
@@ -47,7 +47,7 @@
                 <!--begin::Card header-->
                 <div class="card-header border-0 cursor-pointer">
                     <div class="card-title m-0">
-                        <h3 class="fw-bold m-0">Offer Information</h3>
+                        <h3 class="fw-bold m-0">{{ __('dashboard.offer_information') }}</h3>
                     </div>
                     <div class="card-toolbar">
                         <span class="badge badge-light-{{ $offer->status_color }} fs-7 fw-bold">
@@ -63,7 +63,7 @@
                         <!--begin::Offer ID-->
                         <div class="col-lg-6">
                             <div class="row mb-7">
-                                <label class="col-lg-4 fw-semibold text-muted">Offer ID</label>
+                                <label class="col-lg-4 fw-semibold text-muted">{{ __('dashboard.offer_id') }}</label>
                                 <div class="col-lg-8">
                                     <span class="fw-bold fs-6 text-gray-800">{{ $offer->offer_id }}</span>
                                 </div>
@@ -74,7 +74,7 @@
                         <!--begin::Status-->
                         <div class="col-lg-6">
                             <div class="row mb-7">
-                                <label class="col-lg-4 fw-semibold text-muted">Status</label>
+                                <label class="col-lg-4 fw-semibold text-muted">{{ __('dashboard.status') }}</label>
                                 <div class="col-lg-8">
                                     <span class="badge badge-light-{{ $offer->status_color }} fs-7 fw-bold">
                                         {{ $offer->formatted_status }}
@@ -89,7 +89,7 @@
                         <!--begin::Created Date-->
                         <div class="col-lg-6">
                             <div class="row mb-7">
-                                <label class="col-lg-4 fw-semibold text-muted">Created Date</label>
+                                <label class="col-lg-4 fw-semibold text-muted">{{ __('dashboard.created_date') }}</label>
                                 <div class="col-lg-8 fv-row">
                                     <span class="fw-semibold text-gray-800 fs-6">{{ $offer->created_at->format('d M Y, H:i') }}</span>
                                 </div>
@@ -100,7 +100,7 @@
                         <!--begin::Updated Date-->
                         <div class="col-lg-6">
                             <div class="row mb-7">
-                                <label class="col-lg-4 fw-semibold text-muted">Updated Date</label>
+                                <label class="col-lg-4 fw-semibold text-muted">{{ __('dashboard.updated_date') }}</label>
                                 <div class="col-lg-8 fv-row">
                                     <span class="fw-semibold text-gray-800 fs-6">{{ $offer->updated_at->format('d M Y, H:i') }}</span>
                                 </div>
@@ -118,11 +118,11 @@
                 <!--begin::Card header-->
                 <div class="card-header border-0 cursor-pointer">
                     <div class="card-title m-0">
-                        <h3 class="fw-bold m-0">Customer Information</h3>
+                        <h3 class="fw-bold m-0">{{ __('dashboard.customer_information') }}</h3>
                     </div>
                     <div class="card-toolbar">
                         <a href="{{ route('customers.show', $offer->customer) }}" class="btn btn-sm btn-light-primary">
-                            View Customer Details
+                            {{ __('dashboard.view_customer_details') }}
                         </a>
                     </div>
                 </div>
@@ -134,7 +134,7 @@
                         <!--begin::Customer Name-->
                         <div class="col-lg-6">
                             <div class="row mb-7">
-                                <label class="col-lg-4 fw-semibold text-muted">Customer Name</label>
+                                <label class="col-lg-4 fw-semibold text-muted">{{ __('dashboard.customer_name') }}</label>
                                 <div class="col-lg-8">
                                     <span class="fw-bold fs-6 text-gray-800">{{ $offer->customer->name ?? 'N/A' }}</span>
                                 </div>
@@ -145,7 +145,7 @@
                         <!--begin::Email-->
                         <div class="col-lg-6">
                             <div class="row mb-7">
-                                <label class="col-lg-4 fw-semibold text-muted">Email</label>
+                                <label class="col-lg-4 fw-semibold text-muted">{{ __('dashboard.email') }}</label>
                                 <div class="col-lg-8">
                                     <span class="fw-semibold text-gray-800 fs-6">{{ $offer->customer->email ?? 'N/A' }}</span>
                                 </div>
@@ -158,7 +158,7 @@
                         <!--begin::Mobile Phone-->
                         <div class="col-lg-6">
                             <div class="row mb-7">
-                                <label class="col-lg-4 fw-semibold text-muted">Mobile Phone</label>
+                                <label class="col-lg-4 fw-semibold text-muted">{{ __('dashboard.mobile_phone') }}</label>
                                 <div class="col-lg-8 fv-row">
                                     <span class="fw-semibold text-gray-800 fs-6">{{ $offer->customer->mobile_phone ?? 'N/A' }}</span>
                                 </div>
@@ -169,7 +169,7 @@
                         <!--begin::Customer ID-->
                         <div class="col-lg-6">
                             <div class="row mb-7">
-                                <label class="col-lg-4 fw-semibold text-muted">Customer ID</label>
+                                <label class="col-lg-4 fw-semibold text-muted">{{ __('dashboard.customer_id') }}</label>
                                 <div class="col-lg-8 fv-row">
                                     <span class="fw-semibold text-gray-800 fs-6">{{ $offer->customer->id }}</span>
                                 </div>
@@ -187,7 +187,7 @@
                 <!--begin::Card header-->
                 <div class="card-header border-0 cursor-pointer">
                     <div class="card-title m-0">
-                        <h3 class="fw-bold m-0">Financial Details</h3>
+                        <h3 class="fw-bold m-0">{{ __('dashboard.financial_details') }}</h3>
                     </div>
                 </div>
                 <!--end::Card header-->
@@ -204,7 +204,7 @@
                                         <span class="path2"></span>
                                         <span class="path3"></span>
                                     </i>
-                                    Loan Amount
+                                    {{ __('dashboard.loan_amount') }}
                                 </label>
                                 <div class="col-lg-8">
                                     <span class="fw-bold fs-4 text-success">{{ number_format($offer->loan_amount) }} SAR</span>
@@ -221,7 +221,7 @@
                                         <span class="path1"></span>
                                         <span class="path2"></span>
                                     </i>
-                                    Monthly Payment
+                                    {{ __('dashboard.monthly_payment') }}
                                 </label>
                                 <div class="col-lg-8">
                                     <span class="fw-bold fs-4 text-primary">{{ number_format($offer->monthly_installment, 2) }} SAR</span>
@@ -240,10 +240,10 @@
                                         <span class="path1"></span>
                                         <span class="path2"></span>
                                     </i>
-                                    Finance Period
+                                    {{ __('dashboard.finance_period') }}
                                 </label>
                                 <div class="col-lg-8 fv-row">
-                                    <span class="fw-bold fs-4 text-info">{{ $offer->finance_period }} Months</span>
+                                    <span class="fw-bold fs-4 text-info">{{ $offer->finance_period }} {{ __('dashboard.months') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -257,7 +257,7 @@
                                         <span class="path1"></span>
                                         <span class="path2"></span>
                                     </i>
-                                    Profit Rate
+                                    {{ __('dashboard.profit_rate') }}
                                 </label>
                                 <div class="col-lg-8 fv-row">
                                     <span class="fw-bold fs-4 text-danger">{{ $offer->profit_rate }}%</span>
@@ -279,7 +279,7 @@
                                         <span class="path3"></span>
                                         <span class="path4"></span>
                                     </i>
-                                    Total Repayment
+                                    {{ __('dashboard.total_repayment') }}
                                 </label>
                                 <div class="col-lg-8">
                                     <span class="fw-bold fs-4 text-success">{{ number_format($offer->response['updateOffer']['repaymentAmount'] ?? 0, 2) }} SAR</span>
@@ -297,7 +297,7 @@
                                         <span class="path2"></span>
                                         <span class="path3"></span>
                                     </i>
-                                    Profit Amount
+                                    {{ __('dashboard.profit_amount') }}
                                 </label>
                                 <div class="col-lg-8">
                                     <span class="fw-bold fs-4 text-warning">{{ number_format($offer->response['updateOffer']['profitAmount'] ?? 0, 2) }} SAR</span>
@@ -320,7 +320,7 @@
                                         <span class="path5"></span>
                                         <span class="path6"></span>
                                     </i>
-                                    Admin Fees
+                                    {{ __('dashboard.admin_fees') }}
                                 </label>
                                 <div class="col-lg-8 fv-row">
                                     <span class="fw-bold fs-4 text-dark">{{ number_format($offer->response['updateOffer']['adminFees'] ?? 0, 2) }} SAR</span>
@@ -338,10 +338,10 @@
                                         <span class="path2"></span>
                                         <span class="path3"></span>
                                     </i>
-                                    Offer Validity
+                                    {{ __('dashboard.offer_validity') }}
                                 </label>
                                 <div class="col-lg-8 fv-row">
-                                    <span class="fw-bold fs-4 text-primary">{{ $offer->response['updateOffer']['offerValidity'] ?? 'N/A' }} Days</span>
+                                    <span class="fw-bold fs-4 text-primary">{{ $offer->response['updateOffer']['offerValidity'] ?? 'N/A' }} {{ __('dashboard.days') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -359,7 +359,7 @@
                 <!--begin::Card header-->
                 <div class="card-header border-0 cursor-pointer">
                     <div class="card-title m-0">
-                        <h3 class="fw-bold m-0">Offer Message</h3>
+                        <h3 class="fw-bold m-0">{{ __('dashboard.offer_message') }}</h3>
                     </div>
                 </div>
                 <!--end::Card header-->
@@ -372,7 +372,7 @@
                             <span class="path2"></span>
                         </i>
                         <div class="d-flex flex-column">
-                            <h4 class="mb-1 text-dark">Offer Status Message</h4>
+                            <h4 class="mb-1 text-dark">{{ __('dashboard.offer_status_message') }}</h4>
                             <span>{{ $offer->response['message'] }}</span>
                         </div>
                     </div>

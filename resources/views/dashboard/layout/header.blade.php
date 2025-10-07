@@ -48,6 +48,12 @@
 								<!--end::Navbar-->
 								<!--begin::Topbar-->
 								<div class="d-flex align-items-stretch flex-shrink-0">
+									<!--begin::Language Switcher-->
+									<div class="d-flex align-items-center ms-1 ms-lg-3">
+										@include('dashboard.components.language-switcher')
+									</div>
+									<!--end::Language Switcher-->
+
 									<!--begin::Toolbar wrapper-->
                                     <div class="d-flex align-items-center ms-1 ms-lg-3" id="kt_header_user_menu_toggle">
                                         <!--begin::Menu wrapper-->
@@ -92,57 +98,7 @@
                                             <div class="separator my-2"></div>
                                             <!--end::Menu separator-->
                                             <!--begin::Menu item-->
-                                            <div class="menu-item px-5" data-kt-menu-trigger="hover" data-kt-menu-placement="left-start">
-                                                <a href="#" class="menu-link px-5">
-                                                    <span class="menu-title position-relative">Language
-                                                    <span class="fs-8 rounded bg-light px-3 py-2 position-absolute translate-middle-y top-50 end-0">English
-                                                    <img class="w-15px h-15px rounded-1 ms-2" src="assets/media/flags/united-states.svg" alt="" /></span></span>
-                                                </a>
-                                                <!--begin::Menu sub-->
-                                                <div class="menu-sub menu-sub-dropdown w-175px py-4">
-                                                    <!--begin::Menu item-->
-                                                    <div class="menu-item px-3">
-                                                        <a href="../../demo1/dist/account/settings.html" class="menu-link d-flex px-5 active">
-                                                        <span class="symbol symbol-20px me-4">
-                                                            <img class="rounded-1" src="assets/media/flags/united-states.svg" alt="" />
-                                                        </span>English</a>
-                                                    </div>
-                                                    <!--end::Menu item-->
-                                                    <!--begin::Menu item-->
-                                                    <div class="menu-item px-3">
-                                                        <a href="../../demo1/dist/account/settings.html" class="menu-link d-flex px-5">
-                                                        <span class="symbol symbol-20px me-4">
-                                                            <img class="rounded-1" src="assets/media/flags/spain.svg" alt="" />
-                                                        </span>Spanish</a>
-                                                    </div>
-                                                    <!--end::Menu item-->
-                                                    <!--begin::Menu item-->
-                                                    <div class="menu-item px-3">
-                                                        <a href="../../demo1/dist/account/settings.html" class="menu-link d-flex px-5">
-                                                        <span class="symbol symbol-20px me-4">
-                                                            <img class="rounded-1" src="assets/media/flags/germany.svg" alt="" />
-                                                        </span>German</a>
-                                                    </div>
-                                                    <!--end::Menu item-->
-                                                    <!--begin::Menu item-->
-                                                    <div class="menu-item px-3">
-                                                        <a href="../../demo1/dist/account/settings.html" class="menu-link d-flex px-5">
-                                                        <span class="symbol symbol-20px me-4">
-                                                            <img class="rounded-1" src="assets/media/flags/japan.svg" alt="" />
-                                                        </span>Japanese</a>
-                                                    </div>
-                                                    <!--end::Menu item-->
-                                                    <!--begin::Menu item-->
-                                                    <div class="menu-item px-3">
-                                                        <a href="../../demo1/dist/account/settings.html" class="menu-link d-flex px-5">
-                                                        <span class="symbol symbol-20px me-4">
-                                                            <img class="rounded-1" src="assets/media/flags/france.svg" alt="" />
-                                                        </span>French</a>
-                                                    </div>
-                                                    <!--end::Menu item-->
-                                                </div>
-                                                <!--end::Menu sub-->
-                                            </div>
+                                          
                                             <!--end::Menu item-->
 
                                             <!--begin::Menu item-->
@@ -163,7 +119,7 @@
                                             <div class="separator my-2"></div>
                                             <!--end::Menu separator-->
                                             <!--begin::Menu item-->
-                                       
+
                                             <!--end::Menu item-->
                                         </div>
                                         <!--end::Menu-->

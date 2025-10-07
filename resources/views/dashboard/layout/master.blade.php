@@ -1,7 +1,11 @@
+@php
+    use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+    $currentLocale = LaravelLocalization::getCurrentLocale();
+    $isRtl = $currentLocale === 'ar';
+    $direction = $isRtl ? 'rtl' : 'ltr';
+@endphp
 <!DOCTYPE html>
-<!--
-
-<html lang="en">
+<html lang="{{ $currentLocale }}" dir="{{ $direction }}">
 	<!--begin::Head-->
 	<head><base href="">
 		<title>Metronic - the world's #1 selling Bootstrap Admin Theme Ecosystem for HTML, Vue, React, Angular &amp; Laravel by Keenthemes</title>
@@ -26,6 +30,30 @@
 		<link href="{{asset('assets/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css" />
 		<link href="{{asset('assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
 		<!--end::Global Stylesheets Bundle-->
+
+        @if($isRtl)
+        <!--begin::RTL Stylesheets(used by all pages)-->
+        <link href="{{asset('assets/plugins/custom/prismjs/prismjs.bundle.rtl.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('assets/plugins/global/plugins.bundle.rtl.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('assets/css/style.bundle.rtl.css')}}" rel="stylesheet" type="text/css" />
+        <!--end::RTL Stylesheets-->
+
+        <!--begin::Custom RTL Styles-->
+        <style>
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, 'Noto Sans Arabic', Arial;
+            }
+            .menu-title, .menu-section {
+                font-weight: 600;
+            }
+            .dropdown-item {
+                text-align: right;
+            }
+        </style>
+        <!--end::Custom RTL Styles-->
+        @endif
+
+
 	</head>
 	<!--end::Head-->
 	<!--begin::Body-->

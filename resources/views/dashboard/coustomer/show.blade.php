@@ -1,6 +1,6 @@
 @extends('dashboard.layout.master')
 
-@section('title', 'Customer Details')
+@section('title', __('dashboard.customer_details'))
 
 @section('content')
 <div class="d-flex flex-column flex-column-fluid">
@@ -8,15 +8,15 @@
     <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
         <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Customer Details</h1>
+                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ __('dashboard.customer_details') }}</h1>
                 <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                     <li class="breadcrumb-item text-muted">
-                        <a href="{{ route('customers.index') }}" class="text-muted text-hover-primary">Customers</a>
+                        <a href="{{ route('customers.index') }}" class="text-muted text-hover-primary">{{ __('dashboard.customers') }}</a>
                     </li>
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-400 w-5px h-2px"></span>
                     </li>
-                    <li class="breadcrumb-item text-muted">Customer Details</li>
+                    <li class="breadcrumb-item text-muted">{{ __('dashboard.customer_details') }}</li>
                 </ul>
             </div>
             <div class="d-flex align-items-center gap-2 gap-lg-3">
@@ -25,7 +25,7 @@
                         <span class="path1"></span>
                         <span class="path2"></span>
                     </i>
-                    Back to List
+                    {{ __('dashboard.back_to_list') }}
                 </a>
             </div>
         </div>
@@ -41,7 +41,7 @@
                 <!--begin::Card header-->
                 <div class="card-header border-0 cursor-pointer">
                     <div class="card-title m-0">
-                        <h3 class="fw-bold m-0">Customer Information</h3>
+                        <h3 class="fw-bold m-0">{{ __('dashboard.customer_information') }}</h3>
                     </div>
                 </div>
                 <!--end::Card header-->
@@ -68,7 +68,7 @@
                                         Customer #{{ $customer->id }}
                                     @endif
                                 </h2>
-                                <div class="text-muted fs-6 mb-5">Customer ID: {{ $customer->id }}</div>
+                                <div class="text-muted fs-6 mb-5">{{ __('dashboard.customer_id') }}: {{ $customer->id }}</div>
 
                                 @if($customer->marital_status)
                                     @php
@@ -93,7 +93,7 @@
                             <div class="row">
                                 <!--begin::Personal Information-->
                                 <div class="col-md-6">
-                                    <h4 class="fw-bold text-gray-900 mb-5">Personal Information</h4>
+                                    <h4 class="fw-bold text-gray-900 mb-5">{{ __('dashboard.personal_information') }}</h4>
 
                                     @if($customer->id_information)
                                     <div class="d-flex align-items-center mb-4">
@@ -103,7 +103,7 @@
                                             <span class="path3"></span>
                                         </i>
                                         <div>
-                                            <div class="text-gray-800 fw-bold">ID Number</div>
+                                            <div class="text-gray-800 fw-bold">{{ __('dashboard.id_number') }}</div>
                                             <div class="text-muted">{{ $customer->id_information }}</div>
                                         </div>
                                     </div>
@@ -116,7 +116,7 @@
                                             <span class="path2"></span>
                                         </i>
                                         <div>
-                                            <div class="text-gray-800 fw-bold">Date of Birth</div>
+                                            <div class="text-gray-800 fw-bold">{{ __('dashboard.date_of_birth') }}</div>
                                             <div class="text-muted">{{ $customer->date_of_birth->format('d M Y') }}</div>
                                         </div>
                                     </div>
@@ -130,7 +130,7 @@
                                             <span class="path3"></span>
                                         </i>
                                         <div>
-                                            <div class="text-gray-800 fw-bold">Education Level</div>
+                                            <div class="text-gray-800 fw-bold">{{ __('dashboard.education_level') }}</div>
                                             <div class="text-muted">{{ $customer->education_level }}</div>
                                         </div>
                                     </div>
@@ -146,7 +146,7 @@
                                             <span class="path5"></span>
                                         </i>
                                         <div>
-                                            <div class="text-gray-800 fw-bold">Dependents</div>
+                                            <div class="text-gray-800 fw-bold">{{ __('dashboard.dependents') }}</div>
                                             <div class="text-muted">{{ $customer->dependents }}</div>
                                         </div>
                                     </div>
@@ -156,7 +156,7 @@
 
                                 <!--begin::Contact Information-->
                                 <div class="col-md-6">
-                                    <h4 class="fw-bold text-gray-900 mb-5">Contact Information</h4>
+                                    <h4 class="fw-bold text-gray-900 mb-5">{{ __('dashboard.contact_information') }}</h4>
 
                                     @if($customer->email)
                                     <div class="d-flex align-items-center mb-4">
@@ -165,7 +165,7 @@
                                             <span class="path2"></span>
                                         </i>
                                         <div>
-                                            <div class="text-gray-800 fw-bold">Email</div>
+                                            <div class="text-gray-800 fw-bold">{{ __('dashboard.email') }}</div>
                                             <div class="text-muted">{{ $customer->email }}</div>
                                         </div>
                                     </div>
@@ -178,7 +178,7 @@
                                             <span class="path2"></span>
                                         </i>
                                         <div>
-                                            <div class="text-gray-800 fw-bold">Mobile Phone</div>
+                                            <div class="text-gray-800 fw-bold">{{ __('dashboard.mobile_phone') }}</div>
                                             <div class="text-muted">{{ $customer->mobile_phone }}</div>
                                         </div>
                                     </div>
@@ -191,7 +191,7 @@
                                             <span class="path2"></span>
                                         </i>
                                         <div>
-                                            <div class="text-gray-800 fw-bold">City</div>
+                                            <div class="text-gray-800 fw-bold">{{ __('dashboard.city') }}</div>
                                             <div class="text-muted">
                                                 @php
                                                     $cityNames = [
@@ -217,7 +217,7 @@
                                             <span class="path3"></span>
                                         </i>
                                         <div>
-                                            <div class="text-gray-800 fw-bold">Post Code</div>
+                                            <div class="text-gray-800 fw-bold">{{ __('dashboard.post_code') }}</div>
                                             <div class="text-muted">{{ $customer->post_code }}</div>
                                         </div>
                                     </div>
@@ -240,7 +240,7 @@
                                     <span class="path3"></span>
                                 </i>
                                 <div>
-                                    <div class="text-gray-800 fw-bold">Registration Date</div>
+                                    <div class="text-gray-800 fw-bold">{{ __('dashboard.registration_date') }}</div>
                                     <div class="text-muted">{{ $customer->created_at->format('d M Y, H:i') }}</div>
                                 </div>
                             </div>
@@ -252,7 +252,7 @@
                                     <span class="path2"></span>
                                 </i>
                                 <div>
-                                    <div class="text-gray-800 fw-bold">Last Updated</div>
+                                    <div class="text-gray-800 fw-bold">{{ __('dashboard.last_updated') }}</div>
                                     <div class="text-muted">{{ $customer->updated_at->format('d M Y, H:i') }}</div>
                                 </div>
                             </div>
@@ -274,13 +274,13 @@
                                 <span class="path1"></span>
                                 <span class="path2"></span>
                             </i>
-                            <h3 class="fw-bold m-0 ms-15">Customer Offers</h3>
+                            <h3 class="fw-bold m-0 ms-15">{{ __('dashboard.customer_offers') }}</h3>
                         </div>
                     </div>
                     <div class="card-toolbar">
                         <div class="d-flex justify-content-end">
                             <span class="badge badge-light-primary fs-7 fw-bold">
-                                {{ $customer->offers->count() }} {{ $customer->offers->count() == 1 ? 'Offer' : 'Offers' }}
+                                {{ $customer->offers->count() }} {{ $customer->offers->count() == 1 ? __('dashboard.offer') : __('dashboard.offers') }}
                             </span>
                         </div>
                     </div>
@@ -296,14 +296,14 @@
                                 <!--begin::Table head-->
                                 <thead>
                                     <tr class="fw-bold text-muted">
-                                        <th class="min-w-150px">Offer ID</th>
-                                        <th class="min-w-120px">Status</th>
-                                        <th class="min-w-120px">Loan Amount</th>
-                                        <th class="min-w-120px">Monthly Payment</th>
-                                        <th class="min-w-100px">Period</th>
-                                        <th class="min-w-120px">Profit Rate</th>
-                                        <th class="min-w-120px">Created Date</th>
-                                        <th class="min-w-100px text-end">Actions</th>
+                                        <th class="min-w-150px">{{ __('dashboard.offer_id') }}</th>
+                                        <th class="min-w-120px">{{ __('dashboard.status') }}</th>
+                                        <th class="min-w-120px">{{ __('dashboard.loan_amount') }}</th>
+                                        <th class="min-w-120px">{{ __('dashboard.monthly_payment') }}</th>
+                                        <th class="min-w-100px">{{ __('dashboard.period') }}</th>
+                                        <th class="min-w-120px">{{ __('dashboard.profit_rate') }}</th>
+                                        <th class="min-w-120px">{{ __('dashboard.created_date') }}</th>
+                                        <th class="min-w-100px text-end">{{ __('dashboard.actions') }}</th>
                                     </tr>
                                 </thead>
                                 <!--end::Table head-->
@@ -354,7 +354,7 @@
                                         <!--begin::Period-->
                                         <td>
                                             <span class="text-dark fw-bold d-block fs-6">
-                                                {{ $offer->finance_period }} Months
+                                                {{ $offer->finance_period }} {{ __('dashboard.months') }}
                                             </span>
                                         </td>
                                         <!--end::Period-->
@@ -379,7 +379,7 @@
                                         <!--begin::Actions-->
                                         <td class="text-end">
                                             <a href="#" class="btn btn-sm btn-light btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                Actions
+                                                {{ __('dashboard.actions') }}
                                                 <span class="svg-icon svg-icon-5 m-0">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                                         <path d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z" fill="black"></path>
@@ -390,7 +390,7 @@
                                             <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4" data-kt-menu="true">
                                                 <!--begin::Menu item-->
                                                 <div class="menu-item px-3">
-                                                    <a href="#" class="menu-link px-3" onclick="viewOfferDetails({{ $offer->id }})">View Details</a>
+                                                    <a href="#" class="menu-link px-3" onclick="viewOfferDetails({{ $offer->id }})">{{ __('dashboard.view_details') }}</a>
                                                 </div>
                                                 <!--end::Menu item-->
                                             </div>
@@ -413,8 +413,8 @@
                                     <span class="path2"></span>
                                 </i>
                             </div>
-                            <div class="text-gray-400 fs-4 fw-bold mb-2">No offers found</div>
-                            <div class="text-gray-600 mb-5">This customer doesn't have any loan offers yet</div>
+                            <div class="text-gray-400 fs-4 fw-bold mb-2">{{ __('dashboard.no_offers_found') }}</div>
+                            <div class="text-gray-600 mb-5">{{ __('dashboard.no_customer_offers') }}</div>
                         </div>
                         <!--end::Empty state-->
                     @endif
