@@ -10,7 +10,16 @@ use Illuminate\Validation\Rule;
 
 class CustomerController extends Controller
 {
+    public function index()
+    {
+        // جلب العملاء بدون aliases لعرض البيانات الحقيقية
+        $customers = Customer::orderBy('created_at', 'desc')->get();
 
+        return response()->json([
+            'customers' => $customers,
+            'total' => $customers->count()
+        ]);
+    }
 
     public function store(Request $request, CustomerAliasFactory $aliasFactory)
     {

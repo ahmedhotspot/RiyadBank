@@ -9,7 +9,7 @@ class Customer extends Model
 {
     use HasFactory;
       protected $fillable = [
-        'id_information','education_level','marital_status','date_of_birth',
+        'name','id_information','education_level','marital_status','date_of_birth',
         'mobile_phone','email','city_id','post_code','dependents',
         'food_expense','housing_expense','utilities','insurance','healthcare_service',
         'transportation_expense','education_expense','domestic_help','future_expense',
@@ -23,13 +23,74 @@ class Customer extends Model
     protected $casts = [
         'id_information' => 'encrypted',
         'date_of_birth'  => 'date',
-        'mobile_phone'   => 'encrypted',
-        'email'          => 'encrypted',
         'pii_encrypted'  => 'boolean',
+    ];
+
+    protected $appends = [
+        'marital_status_color'
     ];
 
     public function alias()
     {
         return $this->hasOne(CustomerAlias::class);
+    }
+
+    public function offers()
+    {
+        return $this->hasMany(Offer::class);
+    }
+
+    /**
+     * Get the marital status color for badge display
+     */
+    public function getMaritalStatusColorAttribute()
+    {
+        return self::getMaritalStatusColors()[$this->marital_status] ?? 'primary';
+    }
+
+    /**
+     * Get all marital status colors (static method for use in views)
+     */
+    public static function getMaritalStatusColors()
+    {
+        return [
+            'Single' => 'primary',
+            'Married' => 'success',
+            'Divorced' => 'warning',
+            'Widowed' => 'dark'
+        ];
+    }
+
+
+
+    // filter scope
+    public function scopeFilter($query, $request)
+    {
+        if($request->has('search')){
+            $query->where('email', 'like', '%'.$request->search.'%')
+                  ->orWhere('mobile_phone', 'like', '%'.$request->search.'%')
+                  ->orWhere('id_information', 'like', '%'.$request->search.'%')
+                  ->orWhere('name', 'like', '%'.$request->search.'%');
+        }
+
+        if($request->has('city_id')){
+            $query->where('city_id', $request->city_id);
+        }
+        if($request->has('marital_status')){
+            $query->where('marital_status', $request->marital_status);
+        }
+        if($request->has('created_at')){
+            $query->whereDate('created_at', $request->created_at);
+        }
+        if($request->has('email')){
+            $query->where('email', 'like', '%'.$request->email.'%');
+        }
+        if($request->has('mobile_phone')){
+            $query->where('mobile_phone', 'like', '%'.$request->mobile_phone.'%');
+        }
+
+
+
+        return $query;
     }
 }

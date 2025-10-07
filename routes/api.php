@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+// Customer routes
+Route::get('customers', [CustomerController::class, 'index']);
+Route::post('customers', [CustomerController::class, 'store']);
+
 Route::prefix('offer')->group(function () {
     Route::get('status/{offer}', [OfferStatusController::class, 'show']);
     Route::post('inquiry', [OfferStatusController::class, 'inquiry']);

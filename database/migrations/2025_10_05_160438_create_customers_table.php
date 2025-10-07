@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
             // بيانات أساسية
-            $table->string('id_information', 20)->nullable()->index(); // رقم الهوية الحقيقي
+            $table->string('id_information')->nullable()->index(); // رقم الهوية الحقيقي
             $table->unsignedTinyInteger('education_level')->nullable();
             $table->enum('marital_status', ['Single', 'Married', 'Divorced', 'Widowed'])->nullable();
             $table->date('date_of_birth')->nullable();
@@ -38,7 +38,7 @@ return new class extends Migration
             $table->decimal('total_expenses', 12, 2)->nullable();
 
             // دخل ثانوي
-            $table->string('secondary_income_type', 50)->nullable();   
+            $table->string('secondary_income_type', 50)->nullable();
             $table->decimal('secondary_income_amount', 12, 2)->nullable();
             $table->string('secondary_income_frequency', 10)->nullable();
 
