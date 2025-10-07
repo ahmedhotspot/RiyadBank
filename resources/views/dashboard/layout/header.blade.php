@@ -17,7 +17,7 @@
 							<!--end::Aside mobile toggle-->
 							<!--begin::Mobile logo-->
 							<div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
-								<a href="../../demo1/dist/index.html" class="d-lg-none">
+								<a href="{{ route('dashboard') }}" class="d-lg-none">
 									<img alt="Logo" src="assets/media/logos/logo-2.svg" class="h-30px" />
 								</a>
 							</div>
@@ -89,9 +89,7 @@
                                             <div class="separator my-2"></div>
                                             <!--end::Menu separator-->
                                             <!--begin::Menu item-->
-                                            <div class="menu-item px-5">
-                                                <a href="#" class="menu-link px-5">الملف الشخصي</a>
-                                            </div>
+                                            
                                             <!--end::Menu item-->
 
                                             <!--begin::Menu separator-->
