@@ -17,8 +17,8 @@ class UserSeeder extends Seeder
         // إنشاء مستخدم admin للاختبار
         User::create([
             'name' => 'مدير النظام',
-            'email' => 'admin@riyadbank.com',
-            'password' => Hash::make('password123'),
+            'email' => 'admin@admin.com',
+            'password' => Hash::make('123456789'),
             'email_verified_at' => now(),
         ]);
 

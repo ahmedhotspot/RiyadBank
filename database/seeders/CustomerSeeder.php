@@ -70,7 +70,6 @@ class CustomerSeeder extends Seeder
             // إنشاء alias للعميل
             $alias = $aliasFactory->ensureAlias($customer);
 
-            $this->command->info("تم إنشاء العميل #{$customer->id} - {$alias->fake_full_name}");
         }
 
         $this->command->info('تم إنشاء 20 عميل بنجاح!');
