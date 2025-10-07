@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CustomerController;
+use App\Http\Controllers\Api\OfferController;
 use App\Http\Controllers\OfferStatusController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,7 @@ Route::get('customers', [CustomerController::class, 'index']);
 Route::post('customers', [CustomerController::class, 'store']);
 
 Route::prefix('offer')->group(function () {
+    Route::get('/', [OfferController::class, 'index'])->middleware('api.key');
     Route::get('status/{offer}', [OfferStatusController::class, 'show']);
     Route::post('inquiry', [OfferStatusController::class, 'inquiry']);
     Route::post('export', [OfferStatusController::class, 'export']);
