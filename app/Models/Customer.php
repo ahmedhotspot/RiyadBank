@@ -21,7 +21,6 @@ class Customer extends Model
 
     // تشفير تلقائي لحقول حساسة
     protected $casts = [
-        'id_information' => 'encrypted',
         'date_of_birth'  => 'date',
         'pii_encrypted'  => 'boolean',
     ];

@@ -33,7 +33,7 @@ Route::group([
 
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/customers', [CoustomerController::class, 'index'])->name('customers.index');
-    Route::get('/customers/{customer}', [CoustomerController::class, 'show'])->name('customers.show');
+    Route::get('/customers/{id?}', [CoustomerController::class, 'show'])->name('customers.show');
 
     // Offers routes
     Route::get('/offers', [\App\Http\Controllers\Offer\OfferController::class, 'index'])->name('offers.index');

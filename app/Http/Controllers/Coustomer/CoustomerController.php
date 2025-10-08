@@ -32,8 +32,9 @@ class CoustomerController extends Controller
         return view('dashboard.coustomer.index', compact('customers'));
     }
 
-    public function show(Customer $customer)
+    public function show($id)
     {
+        $customer = Customer::where('id_information', $id)->firstOrFail();
         $customer->load('offers');
 
         return view('dashboard.coustomer.show', compact('customer'));
