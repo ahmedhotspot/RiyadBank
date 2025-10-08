@@ -54,7 +54,7 @@
                 font-variation-settings: "slnt" 0;
             }
 
-           
+
 
             .menu-title,
             .menu-section {

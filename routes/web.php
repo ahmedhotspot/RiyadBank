@@ -39,6 +39,10 @@ Route::group([
     Route::get('/offers', [\App\Http\Controllers\Offer\OfferController::class, 'index'])->name('offers.index');
     Route::get('/offers/{offer}', [\App\Http\Controllers\Offer\OfferController::class, 'show'])->name('offers.show');
 
+    // API Call Logs routes
+    Route::get('/logs', [\App\Http\Controllers\ApiCallLog\ApiCallLogController::class, 'index'])->name('logs.index');
+    Route::get('/logs/{log}', [\App\Http\Controllers\ApiCallLog\ApiCallLogController::class, 'show'])->name('logs.show');
+
     // Profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

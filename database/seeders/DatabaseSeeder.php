@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             MockApiResponsesSeeder::class,
             CustomerSeeder::class,
             OfferSeeder::class,
+            ApiCallLogSeeder::class,
         ]);
     }
 }
