@@ -1,11 +1,11 @@
 @forelse($customers as $customer)
 <tr>
     <!--begin::Checkbox-->
-    <td>
+    {{-- <td>
         <div class="form-check form-check-sm form-check-custom form-check-solid">
             <input class="form-check-input" type="checkbox" value="{{ $customer->id }}">
         </div>
-    </td>
+    </td> --}}
     <!--end::Checkbox-->
     <!--begin::Customer-->
     <td>

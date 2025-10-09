@@ -14,10 +14,8 @@ class OfferController extends Controller
 
         // إذا كان الطلب AJAX، أرجع JSON مع HTML
         if ($request->ajax() || $request->expectsJson() || $request->is('api/*')) {
-            $paginationHtml = '';
-            if ($offers->hasPages()) {
-                $paginationHtml = view('dashboard.offer.partials.pagination', compact('offers'))->render();
-            }
+            // Always render pagination partial, even if no pages
+            $paginationHtml = view('dashboard.offer.partials.pagination', compact('offers'))->render();
 
             return response()->json([
                 'offers' => $offers->items(),
@@ -25,7 +23,8 @@ class OfferController extends Controller
                 'current_page' => $offers->currentPage(),
                 'last_page' => $offers->lastPage(),
                 'html' => view('dashboard.offer.partials.table-rows', ['offers' => $offers->items()])->render(),
-                'pagination' => $paginationHtml
+                'pagination' => $paginationHtml,
+                'has_pages' => $offers->hasPages()
             ]);
         }
 

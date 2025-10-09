@@ -245,58 +245,8 @@
                                 </thead>
                                 <!--end::Table head-->
                                 <!--begin::Table body-->
-                                <tbody>
-                                    @foreach($logs as $log)
-                                    <tr>
-                                        <!--begin::Operator TXN-->
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="symbol symbol-45px me-5">
-                                                    <div class="symbol-label bg-light-primary text-primary fw-bold">
-                                                        {{ substr($log->operator_txn, -4) }}
-                                                    </div>
-                                                </div>
-                                                <div class="d-flex justify-content-start flex-column">
-                                                    <span class="text-dark fw-bold text-hover-primary fs-6">{{ $log->short_operator_txn }}</span>
-                                                    <span class="text-muted fw-semibold text-muted d-block fs-7">{{ $log->x_request_id ?? 'N/A' }}</span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <!--end::Operator TXN-->
-                                        <!--begin::Method-->
-                                        <td>
-                                            <span class="badge badge-light-{{ $log->method_color }} fs-7 fw-bold">{{ $log->method }}</span>
-                                        </td>
-                                        <!--end::Method-->
-                                        <!--begin::Path-->
-                                        <td>
-                                            <span class="text-dark fw-bold d-block fs-6">{{ Str::limit($log->path, 30) }}</span>
-                                        </td>
-                                        <!--end::Path-->
-                                        <!--begin::Status-->
-                                        <td>
-                                            <span class="badge badge-light-{{ $log->status_color }} fs-7 fw-bold">
-                                                {{ $log->response_status }} - {{ $log->status_text }}
-                                            </span>
-                                        </td>
-                                        <!--end::Status-->
-                                        <!--begin::Created Date-->
-                                        <td>
-                                            <div class="d-flex flex-column">
-                                                <span class="text-dark fw-bold fs-6">{{ $log->created_at->format('d M Y') }}</span>
-                                                <span class="text-muted fw-semibold fs-7">{{ $log->created_at->format('H:i:s') }}</span>
-                                            </div>
-                                        </td>
-                                        <!--end::Created Date-->
-                                        <!--begin::Actions-->
-                                        <td class="text-end">
-                                            <a href="{{ route('logs.show', $log) }}" class="btn btn-light btn-active-light-primary btn-sm">
-                                                {{ __('dashboard.view_details') }}
-                                            </a>
-                                        </td>
-                                        <!--end::Actions-->
-                                    </tr>
-                                    @endforeach
+                                <tbody id="logs-table-body">
+                                    @include('dashboard.logs.partials.table-rows', ['logs' => $logs])
                                 </tbody>
                                 <!--end::Table body-->
                             </table>
@@ -304,16 +254,9 @@
                         <!--end::Table-->
 
                         <!--begin::Pagination-->
-                        @if($logs->hasPages())
-                        <div class="d-flex justify-content-between align-items-center flex-wrap pt-6">
-                            <div class="fs-6 fw-bold text-gray-700">
-                                {{ __('dashboard.showing') }} {{ $logs->firstItem() }} {{ __('dashboard.to') }} {{ $logs->lastItem() }} {{ __('dashboard.of') }} {{ $logs->total() }} {{ __('dashboard.logs') }}
-                            </div>
-                            <div class="d-flex align-items-center">
-                                {{ $logs->appends(request()->query())->links('custom-pagination') }}
-                            </div>
+                        <div id="logs-pagination">
+                            @include('dashboard.logs.partials.pagination', ['logs' => $logs])
                         </div>
-                        @endif
                         <!--end::Pagination-->
                     @else
                         <!--begin::Empty state-->
@@ -342,21 +285,98 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Search functionality
+    const tbody = document.getElementById('logs-table-body');
+    const paginationContainer = document.getElementById('logs-pagination');
+
+    // Search functionality with AJAX
     const searchInput = document.querySelector('[data-kt-logs-table-filter="search"]');
     if (searchInput) {
         let searchTimeout;
         searchInput.addEventListener('input', function() {
             clearTimeout(searchTimeout);
             searchTimeout = setTimeout(() => {
-                const url = new URL(window.location);
-                if (this.value) {
-                    url.searchParams.set('search', this.value);
-                } else {
-                    url.searchParams.delete('search');
-                }
-                window.location.href = url.toString();
+                performAjaxFilter();
             }, 500);
+        });
+    }
+
+    // Filter functionality with AJAX
+    const filterSelects = document.querySelectorAll('select[name="method"], select[name="status"], input[name="date_from"], input[name="date_to"]');
+    filterSelects.forEach(filter => {
+        filter.addEventListener('change', function() {
+            performAjaxFilter();
+        });
+    });
+
+    // Perform AJAX filter
+    function performAjaxFilter() {
+        const formData = new FormData();
+
+        // Get search value
+        const searchValue = searchInput ? searchInput.value : '';
+        if (searchValue) {
+            formData.append('search', searchValue);
+        }
+
+        // Get filter values
+        const methodSelect = document.querySelector('select[name="method"]');
+        const statusSelect = document.querySelector('select[name="status"]');
+        const dateFromInput = document.querySelector('input[name="date_from"]');
+        const dateToInput = document.querySelector('input[name="date_to"]');
+
+        if (methodSelect && methodSelect.value) {
+            formData.append('method', methodSelect.value);
+        }
+        if (statusSelect && statusSelect.value) {
+            formData.append('status', statusSelect.value);
+        }
+        if (dateFromInput && dateFromInput.value) {
+            formData.append('date_from', dateFromInput.value);
+        }
+        if (dateToInput && dateToInput.value) {
+            formData.append('date_to', dateToInput.value);
+        }
+
+        // Convert FormData to URLSearchParams
+        const params = new URLSearchParams();
+        for (let [key, value] of formData) {
+            params.append(key, value);
+        }
+
+        // Make AJAX request
+        fetch(`{{ route('logs.index') }}?${params.toString()}`, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.html) {
+                tbody.innerHTML = data.html;
+
+                // Update pagination
+                if (paginationContainer && data.pagination) {
+                    paginationContainer.innerHTML = data.pagination;
+                }
+
+                // Re-attach pagination handlers
+                attachPaginationHandlers();
+
+                // Update results indicator
+                updateResultsIndicator(data.total);
+            }
+        })
+        .catch(error => {
+            console.error('Filter error:', error);
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="6" class="text-center py-10">
+                        <div class="text-muted">{{ __('dashboard.error_loading_data') }}</div>
+                    </td>
+                </tr>
+            `;
         });
     }
 
@@ -367,10 +387,83 @@ document.addEventListener('DOMContentLoaded', function() {
                 e.preventDefault();
                 const url = this.getAttribute('href');
                 if (url && !this.parentElement.classList.contains('disabled') && !this.parentElement.classList.contains('active')) {
-                    window.location.href = url;
+                    // Extract page number from URL
+                    const urlObj = new URL(url);
+                    const page = urlObj.searchParams.get('page');
+
+                    // Get current filter values
+                    const formData = new FormData();
+                    const searchValue = searchInput ? searchInput.value : '';
+                    if (searchValue) {
+                        formData.append('search', searchValue);
+                    }
+
+                    const methodSelect = document.querySelector('select[name="method"]');
+                    const statusSelect = document.querySelector('select[name="status"]');
+                    const dateFromInput = document.querySelector('input[name="date_from"]');
+                    const dateToInput = document.querySelector('input[name="date_to"]');
+
+                    if (methodSelect && methodSelect.value) {
+                        formData.append('method', methodSelect.value);
+                    }
+                    if (statusSelect && statusSelect.value) {
+                        formData.append('status', statusSelect.value);
+                    }
+                    if (dateFromInput && dateFromInput.value) {
+                        formData.append('date_from', dateFromInput.value);
+                    }
+                    if (dateToInput && dateToInput.value) {
+                        formData.append('date_to', dateToInput.value);
+                    }
+
+                    // Add page parameter
+                    if (page) {
+                        formData.append('page', page);
+                    }
+
+                    // Convert FormData to URLSearchParams
+                    const params = new URLSearchParams();
+                    for (let [key, value] of formData) {
+                        params.append(key, value);
+                    }
+
+                    // Make AJAX request
+                    fetch(`{{ route('logs.index') }}?${params.toString()}`, {
+                        method: 'GET',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Accept': 'application/json',
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.html) {
+                            tbody.innerHTML = data.html;
+
+                            // Update pagination
+                            if (paginationContainer && data.pagination) {
+                                paginationContainer.innerHTML = data.pagination;
+                            }
+
+                            // Re-attach handlers
+                            attachPaginationHandlers();
+
+                            // Update results indicator
+                            updateResultsIndicator(data.total);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Pagination error:', error);
+                    });
                 }
             });
         });
+    }
+
+    // Update results indicator
+    function updateResultsIndicator(total) {
+        // You can add a results indicator here if needed
+        console.log(`Found ${total} logs matching your criteria`);
     }
 
     // Initial attachment of pagination handlers

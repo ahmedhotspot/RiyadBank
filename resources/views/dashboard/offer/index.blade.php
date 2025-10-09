@@ -2,6 +2,25 @@
 
 @section('title', __('dashboard.offers'))
 
+@push('styles')
+<style>
+/* Ensure dropdown menus work with AJAX content */
+[data-kt-menu="true"] {
+    display: none;
+}
+
+[data-kt-menu="true"].show {
+    display: block !important;
+}
+
+/* Fix menu positioning */
+.menu.menu-sub.menu-sub-dropdown {
+    position: absolute !important;
+    z-index: 9999 !important;
+}
+</style>
+@endpush
+
 @section('content')
 <div class="d-flex flex-column flex-column-fluid">
     <!--begin::Toolbar-->
@@ -117,11 +136,11 @@
                             <!--begin::Table head-->
                             <thead>
                                 <tr class="fw-bold text-muted">
-                                    <th class="w-25px">
+                                    {{-- <th class="w-25px">
                                         <div class="form-check form-check-sm form-check-custom form-check-solid">
                                             <input class="form-check-input" type="checkbox" value="1" data-kt-check="true" data-kt-check-target=".widget-13-check" />
                                         </div>
-                                    </th>
+                                    </th> --}}
                                     <th class="min-w-150px">{{ __('dashboard.offer') }}</th>
                                     <th class="min-w-140px">{{ __('dashboard.customer') }}</th>
                                     <th class="min-w-120px">{{ __('dashboard.status') }}</th>
@@ -143,16 +162,9 @@
                     <!--end::Table-->
 
                     <!--begin::Pagination-->
-                    @if($offers->hasPages())
-                    <div class="d-flex justify-content-between align-items-center flex-wrap pt-6">
-                        <div class="fs-6 fw-bold text-gray-700">
-                            Showing {{ $offers->firstItem() }} to {{ $offers->lastItem() }} of {{ $offers->total() }} offers
-                        </div>
-                        <div class="d-flex align-items-center">
-                            {{ $offers->appends(request()->query())->links('custom-pagination') }}
-                        </div>
+                    <div id="offers-pagination">
+                        @include('dashboard.offer.partials.pagination', ['offers' => $offers])
                     </div>
-                    @endif
                     <!--end::Pagination-->
                 </div>
                 <!--end::Card body-->
@@ -228,13 +240,23 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.json())
         .then(data => {
+            console.log('Filter response data:', data); // Debug log
             if (data.html) {
                 tbody.innerHTML = data.html;
 
-                // Update pagination if exists
-                const paginationContainer = document.querySelector('.d-flex.justify-content-between.align-items-center.flex-wrap.pt-6');
-                if (paginationContainer && data.pagination) {
-                    paginationContainer.innerHTML = data.pagination;
+                // Update pagination
+                const paginationContainer = document.getElementById('offers-pagination');
+                console.log('Pagination container:', paginationContainer); // Debug log
+                console.log('Pagination data:', data.pagination); // Debug log
+
+                if (paginationContainer) {
+                    if (data.pagination) {
+                        paginationContainer.innerHTML = data.pagination;
+                        console.log('Pagination updated successfully'); // Debug log
+                    } else {
+                        paginationContainer.innerHTML = '';
+                        console.log('Pagination cleared - no data'); // Debug log
+                    }
                 }
 
                 // Show results count
@@ -243,9 +265,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 // Optional: Update page title or add results indicator
                 updateResultsIndicator(resultCount);
-
-                // Re-attach pagination click handlers
-                attachPaginationHandlers();
+                // Re-attach all event handlers
+                reattachEventHandlers();
             }
         })
         .catch(error => {
@@ -336,18 +357,27 @@ document.addEventListener('DOMContentLoaded', function() {
                     })
                     .then(response => response.json())
                     .then(data => {
+                        console.log('Pagination response data:', data); // Debug log
                         if (data.html) {
                             tbody.innerHTML = data.html;
 
                             // Update pagination
-                            const paginationContainer = document.querySelector('.d-flex.justify-content-between.align-items-center.flex-wrap.pt-6');
-                            if (paginationContainer && data.pagination) {
-                                paginationContainer.innerHTML = data.pagination;
+                            const paginationContainer = document.getElementById('offers-pagination');
+                            console.log('Pagination container (click):', paginationContainer); // Debug log
+                            console.log('Pagination data (click):', data.pagination); // Debug log
+
+                            if (paginationContainer) {
+                                if (data.pagination) {
+                                    paginationContainer.innerHTML = data.pagination;
+                                    console.log('Pagination updated successfully (click)'); // Debug log
+                                } else {
+                                    paginationContainer.innerHTML = '';
+                                    console.log('Pagination cleared - no data (click)'); // Debug log
+                                }
                             }
 
-                            // Re-attach handlers
-                            attachPaginationHandlers();
-
+                            // Re-attach all event handlers
+                            reattachEventHandlers();
                             // Update results indicator
                             updateResultsIndicator(data.total);
                         }
@@ -360,8 +390,151 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Initial attachment of pagination handlers
+    // Function to re-initialize menu components
+    function reinitializeMenus() {
+        // Re-initialize KTMenu for dropdown menus
+        if (typeof KTMenu !== 'undefined') {
+            KTMenu.createInstances();
+        }
+
+        // Re-initialize any other menu-related components
+        document.querySelectorAll('[data-kt-menu="true"]').forEach(function(element) {
+            if (element._menu) {
+                element._menu.dispose();
+            }
+        });
+
+        // Re-create menu instances
+        if (typeof KTMenu !== 'undefined') {
+            KTMenu.createInstances();
+        }
+    }
+
+    // Alternative method to handle menus using simple JavaScript
+    function initializeSimpleMenus() {
+        // Remove existing event listeners to avoid duplicates
+        document.querySelectorAll('[data-kt-menu-trigger="click"]').forEach(trigger => {
+            const newTrigger = trigger.cloneNode(true);
+            trigger.parentNode.replaceChild(newTrigger, trigger);
+        });
+
+        document.querySelectorAll('[data-kt-menu-trigger="click"]').forEach(trigger => {
+            trigger.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                // Close all other menus
+                document.querySelectorAll('[data-kt-menu="true"]').forEach(menu => {
+                    if (menu !== this.nextElementSibling) {
+                        menu.style.display = 'none';
+                    }
+                });
+
+                // Toggle current menu
+                const menu = this.nextElementSibling;
+                if (menu && menu.hasAttribute('data-kt-menu')) {
+                    if (menu.style.display === 'block') {
+                        menu.style.display = 'none';
+                    } else {
+                        menu.style.display = 'block';
+
+                        // Position menu
+                        const rect = this.getBoundingClientRect();
+                        menu.style.position = 'absolute';
+                        menu.style.top = (rect.bottom + window.scrollY) + 'px';
+                        menu.style.left = (rect.left + window.scrollX - menu.offsetWidth + this.offsetWidth) + 'px';
+                        menu.style.zIndex = '9999';
+                    }
+                }
+            });
+        });
+    }
+
+    // Function to re-initialize aside menu
+    function reinitializeAsideMenu() {
+        console.log('Reinitializing aside menu...'); // Debug log
+
+        // Re-initialize aside menu components
+        if (typeof KTMenu !== 'undefined') {
+            // Re-initialize all menu instances including aside
+            KTMenu.createInstances();
+            console.log('KTMenu reinitialized'); // Debug log
+        }
+
+        // Re-initialize drawer/aside components
+        if (typeof KTDrawer !== 'undefined') {
+            KTDrawer.createInstances();
+            console.log('KTDrawer reinitialized'); // Debug log
+        }
+
+        // Re-initialize app components
+        if (typeof KTApp !== 'undefined' && KTApp.init) {
+            KTApp.init();
+            console.log('KTApp reinitialized'); // Debug log
+        }
+
+        // Re-initialize layout components
+        if (typeof KTLayout !== 'undefined' && KTLayout.init) {
+            KTLayout.init();
+            console.log('KTLayout reinitialized'); // Debug log
+        }
+
+        // Force re-initialization of aside menu items
+        const asideMenu = document.querySelector('#kt_aside_menu');
+        if (asideMenu && typeof KTMenu !== 'undefined') {
+            // Dispose existing menu instance
+            if (asideMenu._menu) {
+                asideMenu._menu.dispose();
+            }
+            // Create new menu instance
+            new KTMenu(asideMenu);
+            console.log('Aside menu specifically reinitialized'); // Debug log
+        }
+
+        // Trigger a custom event to notify other components
+        document.dispatchEvent(new CustomEvent('kt.aside.menu.reinitialized'));
+    }
+
+    // Function to re-attach all event handlers
+    function reattachEventHandlers() {
+        attachPaginationHandlers();
+        reinitializeMenus();
+        reinitializeAsideMenu();
+        // initializeSimpleMenus();
+
+        // Additional fallback for menu initialization
+        setTimeout(() => {
+            reinitializeMenus();
+            reinitializeAsideMenu();
+            // initializeSimpleMenus();
+
+            // Force refresh of the entire layout if needed
+            if (typeof KT !== 'undefined' && KT.init) {
+                KT.init();
+            }
+        }, 100);
+
+        // Additional longer timeout for stubborn components
+        setTimeout(() => {
+            reinitializeAsideMenu();
+            console.log('Final aside menu reinitialization attempt'); // Debug log
+        }, 500);
+    }
+
+    // Close menus when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('[data-kt-menu-trigger="click"]') && !e.target.closest('[data-kt-menu="true"]')) {
+            document.querySelectorAll('[data-kt-menu="true"]').forEach(menu => {
+                menu.style.display = 'none';
+            });
+        }
+    });
+
+    // Initial attachment of pagination handlers and menus
     attachPaginationHandlers();
+    reinitializeMenus();
+    reinitializeAsideMenu();
+    // initializeSimpleMenus();
 });
 
 // Filter functions
@@ -372,7 +545,8 @@ function applyFilters() {
     }
 }
 
-function resetFilters() {
+
+    function resetFilters() {
     document.getElementById('search-input').value = '';
     document.getElementById('status-filter').value = '';
     document.getElementById('date-filter').value = '';

@@ -14,10 +14,8 @@ class CoustomerController extends Controller
 
         // إذا كان الطلب AJAX، أرجع JSON مع HTML
         if ($request->ajax() || $request->expectsJson() || $request->is('api/*')) {
-            $paginationHtml = '';
-            if ($customers->hasPages()) {
-                $paginationHtml = view('dashboard.coustomer.partials.pagination', compact('customers'))->render();
-            }
+            // Always render pagination partial, even if no pages
+            $paginationHtml = view('dashboard.coustomer.partials.pagination', compact('customers'))->render();
 
             return response()->json([
                 'customers' => $customers->items(),
@@ -25,7 +23,8 @@ class CoustomerController extends Controller
                 'current_page' => $customers->currentPage(),
                 'last_page' => $customers->lastPage(),
                 'html' => view('dashboard.coustomer.partials.table-rows', ['customers' => $customers->items()])->render(),
-                'pagination' => $paginationHtml
+                'pagination' => $paginationHtml,
+                'has_pages' => $customers->hasPages()
             ]);
         }
 

@@ -157,11 +157,11 @@
                             <thead>
                                 <!--begin::Table row-->
                                 <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
-                                    <th class="w-10px pe-2">
+                                    {{-- <th class="w-10px pe-2">
                                         <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
                                             <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#kt_customers_table .form-check-input" value="1">
                                         </div>
-                                    </th>
+                                    </th> --}}
                                     <th class="min-w-125px">{{ __('dashboard.customer') }}</th>
                                     <th class="min-w-125px">{{ __('dashboard.email') }}</th>
                                     <th class="min-w-125px">{{ __('dashboard.phone') }}</th>
@@ -178,11 +178,11 @@
                                 @forelse($customers as $customer)
                                 <tr>
                                     <!--begin::Checkbox-->
-                                    <td>
+                                    {{-- <td>
                                         <div class="form-check form-check-sm form-check-custom form-check-solid">
                                             <input class="form-check-input" type="checkbox" value="{{ $customer->id }}">
                                         </div>
-                                    </td>
+                                    </td> --}}
                                     <!--end::Checkbox-->
                                     <!--begin::Customer ID-->
                                     <td>
@@ -330,16 +330,9 @@
                     <!--end::Table-->
 
                     <!--begin::Pagination-->
-                    @if($customers->hasPages())
-                    <div class="d-flex justify-content-between align-items-center flex-wrap pt-6">
-                        <div class="fs-6 fw-bold text-gray-700">
-                            Showing {{ $customers->firstItem() }} to {{ $customers->lastItem() }} of {{ $customers->total() }} customers
-                        </div>
-                        <div class="d-flex align-items-center">
-                            {{ $customers->appends(request()->query())->links('custom-pagination') }}
-                        </div>
+                    <div id="customers-pagination">
+                        @include('dashboard.coustomer.partials.pagination', ['customers' => $customers])
                     </div>
-                    @endif
                     <!--end::Pagination-->
                 </div>
                 <!--end::Card body-->
@@ -440,13 +433,25 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.json())
         .then(data => {
+            console.log('Filter response data:', data); // Debug log
             if (data.html) {
                 tbody.innerHTML = data.html;
 
-                // Update pagination if exists
-                const paginationContainer = document.querySelector('.d-flex.justify-content-between.align-items-center.flex-wrap.pt-6');
-                if (paginationContainer && data.pagination) {
-                    paginationContainer.innerHTML = data.pagination;
+                // Update pagination
+                const paginationContainer = document.getElementById('customers-pagination');
+                console.log('Pagination container:', paginationContainer); // Debug log
+                console.log('Pagination data:', data.pagination); // Debug log
+                console.log('Has pages:', data.has_pages); // Debug log
+
+                if (paginationContainer) {
+                    if (data.pagination) {
+                        paginationContainer.innerHTML = data.pagination;
+                        console.log('Pagination updated successfully'); // Debug log
+                    } else {
+                        // Clear pagination if no data
+                        paginationContainer.innerHTML = '';
+                        console.log('Pagination cleared - no data'); // Debug log
+                    }
                 }
 
                 // Show results count
@@ -456,8 +461,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Optional: Update page title or add results indicator
                 updateResultsIndicator(resultCount);
 
-                // Re-attach pagination click handlers
-                attachPaginationHandlers();
+                // Re-attach all event handlers
+                reattachEventHandlers();
             }
         })
         .catch(error => {
@@ -561,17 +566,29 @@ document.addEventListener('DOMContentLoaded', function() {
                     })
                     .then(response => response.json())
                     .then(data => {
+                        console.log('Pagination response data:', data); // Debug log
                         if (data.html) {
                             tbody.innerHTML = data.html;
 
                             // Update pagination
-                            const paginationContainer = document.querySelector('.d-flex.justify-content-between.align-items-center.flex-wrap.pt-6');
-                            if (paginationContainer && data.pagination) {
-                                paginationContainer.innerHTML = data.pagination;
+                            const paginationContainer = document.getElementById('customers-pagination');
+                            console.log('Pagination container (click):', paginationContainer); // Debug log
+                            console.log('Pagination data (click):', data.pagination); // Debug log
+                            console.log('Has pages (click):', data.has_pages); // Debug log
+
+                            if (paginationContainer) {
+                                if (data.pagination) {
+                                    paginationContainer.innerHTML = data.pagination;
+                                    console.log('Pagination updated successfully (click)'); // Debug log
+                                } else {
+                                    // Clear pagination if no data
+                                    paginationContainer.innerHTML = '';
+                                    console.log('Pagination cleared - no data (click)'); // Debug log
+                                }
                             }
 
-                            // Re-attach handlers
-                            attachPaginationHandlers();
+                            // Re-attach all event handlers
+                            reattachEventHandlers();
 
                             // Update results indicator
                             updateResultsIndicator(data.total);
@@ -585,8 +602,35 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Initial attachment of pagination handlers
+    // Function to re-initialize menu components
+    function reinitializeMenus() {
+        // Re-initialize KTMenu for dropdown menus
+        if (typeof KTMenu !== 'undefined') {
+            KTMenu.createInstances();
+        }
+
+        // Re-initialize any other menu-related components
+        document.querySelectorAll('[data-kt-menu="true"]').forEach(function(element) {
+            if (element._menu) {
+                element._menu.dispose();
+            }
+        });
+
+        // Re-create menu instances
+        if (typeof KTMenu !== 'undefined') {
+            KTMenu.createInstances();
+        }
+    }
+
+    // Function to re-attach all event handlers
+    function reattachEventHandlers() {
+        attachPaginationHandlers();
+        reinitializeMenus();
+    }
+
+    // Initial attachment of pagination handlers and menus
     attachPaginationHandlers();
+    reinitializeMenus();
 });
 </script>
 @endpush

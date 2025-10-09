@@ -17,6 +17,20 @@ class ApiCallLogController extends Controller
                           ->latest()
                           ->paginate(15);
 
+        // If it's an AJAX request, return only the table rows and pagination
+        if ($request->ajax()) {
+            $html = view('dashboard.logs.partials.table-rows', compact('logs'))->render();
+            $pagination = view('dashboard.logs.partials.pagination', compact('logs'))->render();
+
+            return response()->json([
+                'html' => $html,
+                'pagination' => $pagination,
+                'total' => $logs->total(),
+                'current_page' => $logs->currentPage(),
+                'last_page' => $logs->lastPage(),
+            ]);
+        }
+
         return view('dashboard.logs.index', compact('logs'));
     }
 
