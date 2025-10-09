@@ -13,7 +13,7 @@ class OfferController extends Controller
     public function index(Request $request)
     {
         $offers = Offer::whereHas('customer',function($customerQuery) use ($request) {
-            if($request->has('id_information') && !empty($request->id_information)){
+            if($request->has('id_information')){
                 $customerQuery->where('id_information', $request->id_information);
             }
         })
@@ -29,6 +29,8 @@ class OfferController extends Controller
                 'last_page' => $offers->lastPage(),
                 'per_pagex' => $offers->perPage(),
                 'total' => $offers->total(),
+                'next_page_url' => $offers->nextPageUrl(),
+                'prev_page_url' => $offers->previousPageUrl(),
             ]
         ]);
     }
