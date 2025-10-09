@@ -12,7 +12,7 @@ class OfferController extends Controller
 
     public function index(Request $request)
     {
-        $offers = Offer::whereHas('coustomer',function($customerQuery) use ($request) {
+        $offers = Offer::whereHas('customer',function($customerQuery) use ($request) {
             if($request->has('id_information') && !empty($request->id_information)){
                 $customerQuery->where('id_information', $request->id_information);
             }
