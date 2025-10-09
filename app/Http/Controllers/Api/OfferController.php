@@ -20,18 +20,18 @@ class OfferController extends Controller
         
         ->with('customer')->filter($request)->orderBy('created_at', 'desc')->paginate(10);
 
-        return response()->ResponseJson([
-            'success' => true,
-            'message' => 'Offers retrieved successfully',
-            'data' => OfferResource::collection($offers),
+        return response()->ResponseJson('Offers retrieved successfully',[
+            'offers' => OfferResource::collection($offers),
             'pagination' => [
                 'current_page' => $offers->currentPage(),
                 'last_page' => $offers->lastPage(),
-                'per_pagex' => $offers->perPage(),
+                'per_page' => $offers->perPage(),
                 'total' => $offers->total(),
                 'next_page_url' => $offers->nextPageUrl(),
                 'prev_page_url' => $offers->previousPageUrl(),
             ]
-        ]);
+            ]);
+           
+
     }
 }
