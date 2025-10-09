@@ -22,7 +22,6 @@ Route::post('customers', [CustomerController::class, 'store']);
 Route::post('offers', [OfferController::class, 'index']);
 
 Route::prefix('offer')->group(function () {
-    Route::get('/', [OfferController::class, 'index'])->middleware('api.key');
     Route::get('status/{offer}', [OfferStatusController::class, 'show']);
     Route::post('inquiry', [OfferStatusController::class, 'inquiry']);
     Route::post('export', [OfferStatusController::class, 'export']);
