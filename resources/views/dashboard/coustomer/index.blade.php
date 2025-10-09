@@ -140,7 +140,15 @@
                             <!--end::Menu 1-->
                             <!--end::Filter-->
                             <!--begin::Add customer-->
-                            {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_add_customer">Add Customer</button> --}}
+                            <a href="{{ route('customers.create') }}" class="btn btn-primary">
+                                <span class="svg-icon svg-icon-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <rect opacity="0.5" x="11.364" y="20.364" width="16" height="2" rx="1" transform="rotate(-90 11.364 20.364)" fill="black"/>
+                                        <rect x="4.364" y="11.364" width="16" height="2" rx="1" fill="black"/>
+                                    </svg>
+                                </span>
+                                {{ __('dashboard.add_customer') }}
+                            </a>
                             <!--end::Add customer-->
                         </div>
                         <!--end::Toolbar-->

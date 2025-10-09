@@ -33,6 +33,8 @@ Route::group([
 
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/customers', [CoustomerController::class, 'index'])->name('customers.index');
+    Route::get('/customers/create', [CoustomerController::class, 'create'])->name('customers.create');
+    Route::post('/customers', [CoustomerController::class, 'store'])->name('customers.store');
     Route::get('/customers/{id?}', [CoustomerController::class, 'show'])->name('customers.show');
 
     // Offers routes

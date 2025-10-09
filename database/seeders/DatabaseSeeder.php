@@ -14,10 +14,11 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             UserSeeder::class,
-            MockApiResponsesSeeder::class,
-            CustomerSeeder::class,
-            OfferSeeder::class,
-            ApiCallLogSeeder::class,
+            // MockApiResponsesSeeder::class,
+            // CustomerSeeder::class,
+            // OfferSeeder::class,
+            // ApiCallLogSeeder::class,
+            CitySeeder::class,
         ]);
     }
 }

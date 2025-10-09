@@ -28,6 +28,16 @@ return [
 
     // Table Headers
     'customer' => 'العميل',
+    'customers' => 'العملاء',
+    'create_customer' => 'إنشاء عميل جديد',
+    'add_customer' => 'إضافة عميل',
+    'customer_info' => 'معلومات العميل',
+    'personal_information' => 'المعلومات الشخصية',
+    'financial_information' => 'المعلومات المالية',
+    'create' => 'إنشاء',
+    'save' => 'حفظ',
+    'cancel' => 'إلغاء',
+    'please_wait' => 'يرجى الانتظار',
     'loan_amount' => 'مبلغ القرض',
     'status' => 'الحالة',
     'created_date' => 'تاريخ الإنشاء',
@@ -193,4 +203,70 @@ return [
     'headers' => 'الرؤوس',
     'body' => 'المحتوى',
     'no_data' => 'لا توجد بيانات',
+
+    // Customer Form Fields
+    'enter_customer_name' => 'أدخل اسم العميل',
+    'enter_id_information' => 'أدخل رقم الهوية',
+    'enter_email' => 'أدخل البريد الإلكتروني',
+    'enter_mobile_phone' => 'أدخل رقم الهاتف المحمول',
+    'enter_education_level' => 'أدخل المستوى التعليمي',
+    'select_education_level' => 'اختر المستوى التعليمي',
+
+    // Education Levels
+    'elementary' => 'ابتدائي',
+    'intermediate' => 'متوسط',
+    'secondary' => 'ثانوي',
+    'diploma' => 'دبلوم',
+    'bachelor' => 'بكالوريوس',
+    'master' => 'ماجستير',
+    'phd' => 'دكتوراه',
+
+    // Success and Error Messages
+    'success' => 'نجح',
+    'error' => 'خطأ',
+    'ok' => 'موافق',
+    'customer_created_successfully' => 'تم إنشاء العميل بنجاح',
+    'error_creating_customer' => 'حدث خطأ أثناء إنشاء العميل',
+    'validation_error' => 'خطأ في التحقق',
+    'validation_errors' => 'أخطاء التحقق',
+    'something_went_wrong' => 'حدث خطأ ما',
+    'please_fill_required_fields' => 'يرجى ملء جميع الحقول المطلوبة',
+    'please_check_errors_below' => 'يرجى مراجعة الأخطاء أدناه',
+    'select_marital_status' => 'اختر الحالة الاجتماعية',
+    'select_city' => 'اختر المدينة',
+    'enter_post_code' => 'أدخل الرمز البريدي',
+    'enter_dependents' => 'أدخل عدد المعالين',
+    'enter_food_expense' => 'أدخل مصاريف الطعام',
+    'enter_housing_expense' => 'أدخل مصاريف السكن',
+    'enter_utilities' => 'أدخل مصاريف المرافق',
+    'enter_insurance' => 'أدخل مصاريف التأمين',
+    'enter_healthcare_service' => 'أدخل مصاريف الخدمات الصحية',
+    'enter_transportation' => 'أدخل مصاريف النقل',
+    'enter_education_expense' => 'أدخل مصاريف التعليم',
+
+    // Marital Status Options
+    'single' => 'أعزب',
+    'married' => 'متزوج',
+    'divorced' => 'مطلق',
+    'widowed' => 'أرمل',
+
+    // Success Messages
+    'customer_created_successfully' => 'تم إنشاء العميل بنجاح',
+    'error_creating_customer' => 'حدث خطأ أثناء إنشاء العميل',
+    'please_fill_required_fields' => 'يرجى ملء جميع الحقول المطلوبة',
+
+    // Field Labels
+    'id_information' => 'رقم الهوية',
+    'mobile_phone' => 'رقم الهاتف المحمول',
+    'education_level' => 'المستوى التعليمي',
+    'date_of_birth' => 'تاريخ الميلاد',
+    'post_code' => 'الرمز البريدي',
+    'dependents' => 'المعالين',
+    'food_expense' => 'مصاريف الطعام',
+    'housing_expense' => 'مصاريف السكن',
+    'utilities' => 'المرافق',
+    'insurance' => 'التأمين',
+    'healthcare_service' => 'الخدمات الصحية',
+    'transportation' => 'النقل',
+    'education_expense' => 'مصاريف التعليم',
 ];

@@ -193,4 +193,67 @@ return [
     'headers' => 'Headers',
     'body' => 'Body',
     'no_data' => 'No Data',
+
+    // Customer Creation
+    'create_customer' => 'Create New Customer',
+    'add_customer' => 'Add Customer',
+    'customer_info' => 'Customer Information',
+    'financial_information' => 'Financial Information',
+    'create' => 'Create',
+    'please_wait' => 'Please wait',
+
+    // Form Fields
+    'enter_customer_name' => 'Enter customer name',
+    'enter_id_information' => 'Enter ID number',
+    'enter_email' => 'Enter email address',
+    'enter_mobile_phone' => 'Enter mobile phone',
+    'enter_education_level' => 'Enter education level',
+    'select_education_level' => 'Select education level',
+
+    // Education Levels
+    'elementary' => 'Elementary',
+    'intermediate' => 'Intermediate',
+    'secondary' => 'Secondary',
+    'diploma' => 'Diploma',
+    'bachelor' => 'Bachelor',
+    'master' => 'Master',
+    'phd' => 'PhD',
+
+    // Success and Error Messages
+    'success' => 'Success',
+    'error' => 'Error',
+    'ok' => 'OK',
+    'customer_created_successfully' => 'Customer created successfully',
+    'error_creating_customer' => 'Error creating customer',
+    'validation_error' => 'Validation Error',
+    'validation_errors' => 'Validation Errors',
+    'something_went_wrong' => 'Something went wrong',
+    'please_fill_required_fields' => 'Please fill all required fields',
+    'please_check_errors_below' => 'Please check the errors below',
+    'select_marital_status' => 'Select marital status',
+    'select_city' => 'Select city',
+    'enter_post_code' => 'Enter post code',
+    'enter_dependents' => 'Enter number of dependents',
+    'enter_food_expense' => 'Enter food expenses',
+    'enter_housing_expense' => 'Enter housing expenses',
+    'enter_utilities' => 'Enter utilities expenses',
+    'enter_insurance' => 'Enter insurance expenses',
+    'enter_healthcare_service' => 'Enter healthcare expenses',
+    'enter_transportation' => 'Enter transportation expenses',
+    'enter_education_expense' => 'Enter education expenses',
+
+    // Success Messages
+    'customer_created_successfully' => 'Customer created successfully',
+    'error_creating_customer' => 'Error creating customer',
+    'please_fill_required_fields' => 'Please fill all required fields',
+
+    // Field Labels
+    'id_information' => 'ID Number',
+    'food_expense' => 'Food Expenses',
+    'housing_expense' => 'Housing Expenses',
+    'utilities' => 'Utilities',
+    'insurance' => 'Insurance',
+    'healthcare_service' => 'Healthcare Services',
+    'transportation' => 'Transportation',
+    'education_expense' => 'Education Expenses',
 ];
