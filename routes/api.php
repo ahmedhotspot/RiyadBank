@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('customers', [CustomerController::class, 'index']);
 Route::post('customers', [CustomerController::class, 'store']);
 
+Route::get('offers', [OfferController::class, 'index']);
+
 Route::prefix('offer')->group(function () {
     Route::get('/', [OfferController::class, 'index'])->middleware('api.key');
     Route::get('status/{offer}', [OfferStatusController::class, 'show']);

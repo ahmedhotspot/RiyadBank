@@ -12,7 +12,13 @@ class OfferController extends Controller
 
     public function index(Request $request)
     {
-        $offers = Offer::with('customer')->filter($request)->orderBy('created_at', 'desc')->paginate(10);
+        $offers = Offer::whereHas('coustomer',function($customerQuery) use ($request) {
+            if($request->has('id_information') && !empty($request->id_information)){
+                $customerQuery->where('id_information', $request->id_information);
+            }
+        })
+        
+        ->with('customer')->filter($request)->orderBy('created_at', 'desc')->paginate(10);
 
         return response()->ResponseJson([
             'success' => true,
@@ -21,7 +27,7 @@ class OfferController extends Controller
             'pagination' => [
                 'current_page' => $offers->currentPage(),
                 'last_page' => $offers->lastPage(),
-                'per_page' => $offers->perPage(),
+                'per_pagex' => $offers->perPage(),
                 'total' => $offers->total(),
             ]
         ]);
