@@ -33,9 +33,7 @@ class CoustomerController extends Controller
 
     public function show($id)
     {
-        $customer = Customer::where('id_information', $id)->firstOrFail();
-        $customer->load('offers');
-
+        $customer = Customer::with('offers')->where('id_information', $id)->firstOrFail();
         return view('dashboard.coustomer.show', compact('customer'));
     }
 }
