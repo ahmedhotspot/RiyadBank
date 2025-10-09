@@ -433,7 +433,7 @@
 function viewOfferDetails(offerId) {
 
 
-    window.location.href = `/offers/${offerId}`;
+ window.location.href = `https://hotspotloans.co/RiyadBank/public/ar/offers/${offerId}`;
 }
 </script>
 @endpush
