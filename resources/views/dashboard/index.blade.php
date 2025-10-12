@@ -176,7 +176,7 @@
                             <!--end::Avatar-->
                             <!--begin::Text-->
                             <div class="flex-grow-1 me-2">
-                                <a href="{{ route('customers.show', $customer) }}" class="fw-bolder text-gray-800 text-hover-primary fs-6">{{ $customer->name }}</a>
+                                <a href="{{ route('customers.show', $customer->id_information) }}" class="fw-bolder text-gray-800 text-hover-primary fs-6">{{ $customer->name }}</a>
                                 <span class="text-muted fw-bold d-block">{{ $customer->city_name }}</span>
                             </div>
                             <!--end::Text-->
@@ -244,7 +244,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="d-flex justify-content-start flex-column">
-                                                    <a href="{{ route('customers.show', $offer->customer) }}" class="text-dark fw-bolder text-hover-primary fs-6">{{ $offer->customer->name }}</a>
+                                                    <a href="{{ route('customers.show', $offer->customer->id_information) }}" class="text-dark fw-bolder text-hover-primary fs-6">{{ $offer->customer->name }}</a>
                                                     <span class="text-muted fw-bold text-muted d-block fs-7">{{ $offer->customer->city_name }}</span>
                                                 </div>
                                             </div>

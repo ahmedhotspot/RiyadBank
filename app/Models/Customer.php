@@ -9,7 +9,7 @@ class Customer extends Model
 {
     use HasFactory;
       protected $fillable = [
-        'name','id_information','education_level','marital_status','date_of_birth',
+        'source','name','id_information','education_level','marital_status','date_of_birth',
         'mobile_phone','email','city_id','post_code','dependents',
         'food_expense','housing_expense','utilities','insurance','healthcare_service',
         'transportation_expense','education_expense','domestic_help','future_expense',
@@ -26,7 +26,9 @@ class Customer extends Model
     ];
 
     protected $appends = [
-        'marital_status_color'
+        'marital_status_color',
+        'source_text',
+        'source_badge'
     ];
 
     public function alias()
@@ -78,6 +80,9 @@ class Customer extends Model
         if($request->has('marital_status')){
             $query->where('marital_status', $request->marital_status);
         }
+        if($request->has('source')){
+            $query->where('source', $request->source);
+        }
         if($request->has('created_at')){
             $query->whereDate('created_at', $request->created_at);
         }
@@ -91,5 +96,21 @@ class Customer extends Model
 
 
         return $query;
+    }
+
+    // Accessor لنص المصدر
+    public function getSourceTextAttribute()
+    {
+        return $this->source === 'app' ? __('dashboard.mobile_app') : __('dashboard.web_system');
+    }
+
+    // Accessor لشارة المصدر مع الألوان
+    public function getSourceBadgeAttribute()
+    {
+        if ($this->source === 'app') {
+            return '<span class="badge badge-light-primary">' . __('dashboard.mobile_app') . '</span>';
+        } else {
+            return '<span class="badge badge-light-info">' . __('dashboard.web_system') . '</span>';
+        }
     }
 }

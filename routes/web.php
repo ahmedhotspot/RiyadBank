@@ -36,6 +36,7 @@ Route::group([
     Route::get('/customers/create', [CoustomerController::class, 'create'])->name('customers.create');
     Route::post('/customers', [CoustomerController::class, 'store'])->name('customers.store');
     Route::get('/customers/{id?}', [CoustomerController::class, 'show'])->name('customers.show');
+    Route::get('/customers/{id}/data', [CoustomerController::class, 'getData'])->name('customers.data');
 
     // Offers routes
     Route::get('/offers', [\App\Http\Controllers\Offer\OfferController::class, 'index'])->name('offers.index');

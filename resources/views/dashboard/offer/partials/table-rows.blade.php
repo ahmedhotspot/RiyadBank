@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="d-flex justify-content-start flex-column">
-                <a href="{{ route('customers.show', $offer->customer) }}" class="text-dark fw-bold text-hover-primary fs-6">{{ $offer->customer->name ?? 'N/A' }}</a>
+                <a href="{{ route('customers.show', $offer->customer->id_information) }}" class="text-dark fw-bold text-hover-primary fs-6">{{ $offer->customer->name ?? 'N/A' }}</a>
                 <span class="text-muted fw-semibold fs-7">{{ $offer->customer->email ?? 'N/A' }}</span>
             </div>
         </div>
@@ -100,7 +100,7 @@
             <!--end::Menu item-->
             <!--begin::Menu item-->
             <div class="menu-item px-3">
-                <a href="{{ route('customers.show', $offer->customer) }}" class="menu-link px-3">View Customer</a>
+                <a href="{{ route('customers.show', $offer->customer->id_information) }}" class="menu-link px-3">View Customer</a>
             </div>
             <!--end::Menu item-->
         </div>

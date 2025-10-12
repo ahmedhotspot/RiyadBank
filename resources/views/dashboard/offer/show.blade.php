@@ -121,7 +121,7 @@
                         <h3 class="fw-bold m-0">{{ __('dashboard.customer_information') }}</h3>
                     </div>
                     <div class="card-toolbar">
-                        <a href="{{ route('customers.show', $offer->customer) }}" class="btn btn-sm btn-light-primary">
+                        <a href="{{ route('customers.show', $offer->customer->id_information) }}" class="btn btn-sm btn-light-primary">
                             {{ __('dashboard.view_customer_details') }}
                         </a>
                     </div>

@@ -6,6 +6,7 @@ use App\Models\MockApiResponse;
 use App\Services\ApiLogger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class OfferStatusController extends Controller
 {
@@ -509,6 +510,11 @@ class OfferStatusController extends Controller
 
         $body['operatorTxn'] = $log->operator_txn;
 
+        // Save offer to database if decision is ACCEPT and response is successful
+        if ($request->input('decision') === 'ACCEPT' && $status === 200) {
+            $this->saveOfferToDatabase($offerId, $request, $body);
+        }
+
         return response()->json($body, $status)
             ->header('Operator-Transaction-Number', $log->operator_txn);
     }
@@ -529,5 +535,89 @@ class OfferStatusController extends Controller
         $v = $request->input('x_request_id') ?? $request->input('X-Request-Id');
 
         return $v !== null && $v !== '' ? (string) $v : null;
+    }
+
+    /**
+     * Save offer to database when accepted
+     */
+    private function saveOfferToDatabase(string $offerId, Request $request, array $apiResponse)
+    {
+        try {
+            // Get the offer data from the API response (could be initialOffer or updateOffer)
+            $offerData = $apiResponse['response']['updateOffer'] ?? $apiResponse['response']['initialOffer'] ?? null;
+
+            if (!$offerData) {
+                Log::warning("No offer data found in API response for offer: {$offerId}");
+                return;
+            }
+
+            // Try to find customer by offer ID pattern or other means
+            // You might need to adjust this logic based on your business requirements
+            $customerId = $this->findCustomerIdForOffer($offerId, $request);
+
+            if (!$customerId) {
+                Log::warning("Could not determine customer ID for offer: {$offerId}");
+                return;
+            }
+
+            // Create or update the offer record
+            $offer = \App\Models\Offer::updateOrCreate(
+                [
+                    'offer_id' => $offerId,
+                    'customer_id' => $customerId
+                ],
+                [
+                    'offerStatus' => $apiResponse['response']['offerStatus'] ?? 'OFFER_APPROVED',
+                    'response' => [
+                        'header' => $apiResponse['response']['header'] ?? [],
+                        'status' => $apiResponse['response']['offerStatus'] ?? 'OFFER_APPROVED',
+                        'initialOffer' => $apiResponse['response']['initialOffer'] ?? null,
+                        'updateOffer' => $offerData,
+                        'message' => $apiResponse['response']['message'] ?? 'Offer accepted by customer',
+                        'decisionTimestamp' => now()->toISOString(),
+                        'decision' => $request->input('decision', 'ACCEPT')
+                    ]
+                ]
+            );
+
+            Log::info("Offer saved to database successfully", [
+                'offer_id' => $offerId,
+                'customer_id' => $customerId,
+                'database_id' => $offer->id
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error("Failed to save offer to database", [
+                'offer_id' => $offerId,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+        }
+    }
+
+    /**
+     * Find customer ID for the given offer
+     * This is a placeholder - you might need to implement this based on your business logic
+     */
+    private function findCustomerIdForOffer(string $offerId, Request $request): ?int
+    {
+        // Option 1: If you store customer ID in session or request
+        if ($request->has('customer_id')) {
+            return $request->input('customer_id');
+        }
+
+        // Option 2: If you can extract from offer ID pattern
+        // This is just an example - adjust based on your actual pattern
+        if (preg_match('/Fintech_IdPL-(\d+)/', $offerId, $matches)) {
+            // Try to find customer by some identifier
+            $identifier = $matches[1];
+            $customer = \App\Models\Customer::where('id_information', 'like', '%' . substr($identifier, -10) . '%')->first();
+            return $customer ? $customer->id : null;
+        }
+
+        // Option 3: Find the most recent customer who doesn't have an offer yet
+        // This is a fallback and might not be accurate
+        $customer = \App\Models\Customer::whereDoesntHave('offers')->latest()->first();
+        return $customer ? $customer->id : null;
     }
 }

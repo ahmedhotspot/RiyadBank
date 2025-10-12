@@ -51,6 +51,9 @@ class CoustomerController extends Controller
             // Debug: Log the validated data
             Log::info('Customer creation attempt', ['data' => $validatedData]);
 
+            // إضافة مصدر العميل (من النظام)
+            $validatedData['source'] = 'system';
+
             // إنشاء العميل الجديد
             $customer = Customer::create($validatedData);
 
@@ -91,5 +94,25 @@ class CoustomerController extends Controller
     {
         $customer = Customer::with('offers')->where('id_information', $id)->firstOrFail();
         return view('dashboard.coustomer.show', compact('customer'));
+    }
+
+    /**
+     * Get customer data for API calls
+     */
+    public function getData($id)
+    {
+        try {
+            $customer = Customer::findOrFail($id);
+
+            return response()->json([
+                'success' => true,
+                'customer' => $customer
+            ]);
+        } catch (\Exception) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Customer not found'
+            ], 404);
+        }
     }
 }

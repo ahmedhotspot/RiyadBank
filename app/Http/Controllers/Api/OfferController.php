@@ -22,14 +22,7 @@ class OfferController extends Controller
 
         return response()->ResponseJson('Offers retrieved successfully',[
             'offers' => OfferResource::collection($offers),
-            'pagination' => [
-                'current_page' => $offers->currentPage(),
-                'last_page' => $offers->lastPage(),
-                'per_page' => $offers->perPage(),
-                'total' => $offers->total(),
-                'next_page_url' => $offers->nextPageUrl(),
-                'prev_page_url' => $offers->previousPageUrl(),
-            ]
+            'pagination' => $this->paginate($offers)
             ]);
            
 

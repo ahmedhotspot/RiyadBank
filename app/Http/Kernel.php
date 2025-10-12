@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
         'localeSessionRedirect' => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter::class,
         'localizationRedirect' => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter::class,
         'localeViewPath' => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationViewPath::class,
+        'api.key' => \App\Http\Middleware\ApiKeyMiddleware::class,
     ];
 }

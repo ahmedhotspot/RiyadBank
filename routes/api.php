@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\OfferController;
+use App\Http\Controllers\Api\OwnershipController;
+use App\Http\Controllers\Api\PurposeController;
+use App\Http\Controllers\Api\ResidentialController;
 use App\Http\Controllers\OfferStatusController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +23,9 @@ Route::get('customers', [CustomerController::class, 'index']);
 Route::post('customers', [CustomerController::class, 'store']);
 
 Route::post('offers', [OfferController::class, 'index']);
+Route::get('ownerships', [OwnershipController::class, 'index']);
+Route::get('purposes', [PurposeController::class, 'index']);
+Route::get('residentials', [ResidentialController::class, 'index']);
 
 Route::prefix('offer')->group(function () {
     Route::get('status/{offer}', [OfferStatusController::class, 'show']);

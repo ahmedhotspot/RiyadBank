@@ -124,6 +124,16 @@
                                     <!--end::Input group-->
                                     <!--begin::Input group-->
                                     <div class="mb-10">
+                                        <label class="form-label fs-6 fw-bold">{{ __('dashboard.source') }}:</label>
+                                        <select class="form-select form-select-solid fw-bolder" data-kt-select2="true" data-placeholder="Select option" data-allow-clear="true" data-kt-customer-table-filter="source" data-hide-search="true">
+                                            <option></option>
+                                            <option value="app">{{ __('dashboard.mobile_app') }}</option>
+                                            <option value="system">{{ __('dashboard.web_system') }}</option>
+                                        </select>
+                                    </div>
+                                    <!--end::Input group-->
+                                    <!--begin::Input group-->
+                                    <div class="mb-10">
                                         <label class="form-label fs-6 fw-bold">{{ __('dashboard.created_date') }}:</label>
                                         <input class="form-control form-control-solid" placeholder="Pick date range" id="kt_daterangepicker_1" data-kt-customer-table-filter="created_at"/>
                                     </div>
@@ -175,6 +185,7 @@
                                     <th class="min-w-125px">{{ __('dashboard.phone') }}</th>
                                     <th class="min-w-125px">{{ __('dashboard.city') }}</th>
                                     <th class="min-w-125px">{{ __('dashboard.marital_status') }}</th>
+                                    <th class="min-w-100px">{{ __('dashboard.source') }}</th>
                                     <th class="min-w-125px">{{ __('dashboard.created_date') }}</th>
                                     <th class="text-end min-w-70px">{{ __('dashboard.actions') }}</th>
                                 </tr>
@@ -271,6 +282,11 @@
                                         @endif
                                     </td>
                                     <!--end::Marital Status-->
+                                    <!--begin::Source-->
+                                    <td>
+                                        {!! $customer->source_badge !!}
+                                    </td>
+                                    <!--end::Source-->
                                     <!--begin::Date-->
                                     <td>
                                         <div class="d-flex flex-column">
@@ -290,12 +306,25 @@
                                             </span>
                                         </a>
                                         <!--begin::Menu-->
-                                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4" data-kt-menu="true">
+                                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-200px py-4" data-kt-menu="true">
                                             <!--begin::Menu item-->
                                             <div class="menu-item px-3">
                                                 <a href="{{ route('customers.show', $customer->id_information) }}" class="menu-link px-3">{{ __('dashboard.view_details') }}</a>
                                             </div>
                                             <!--end::Menu item-->
+                                            @if($customer->source === 'system')
+                                            <!--begin::Menu item-->
+                                            <div class="menu-item px-3">
+                                                <a href="#" class="menu-link px-3 view-offers-btn" data-customer-id="{{ $customer->id }}">
+                                                    <i class="ki-duotone ki-bank fs-6 me-2">
+                                                        <span class="path1"></span>
+                                                        <span class="path2"></span>
+                                                    </i>
+                                                    {{ __('dashboard.view_available_offers') }}
+                                                </a>
+                                            </div>
+                                            <!--end::Menu item-->
+                                            @endif
                                             {{-- <!--begin::Menu item-->
                                             <div class="menu-item px-3">
                                                 <a href="#" class="menu-link px-3">Edit</a>
@@ -313,7 +342,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="8" class="text-center py-10">
+                                    <td colspan="9" class="text-center py-10">
                                         <div class="d-flex flex-column align-items-center">
                                             <div class="text-gray-400 fs-1 mb-5">
                                                 <i class="ki-duotone ki-user-square fs-1">
@@ -361,6 +390,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('search-input');
     const cityFilter = document.querySelector('[data-kt-customer-table-filter="city"]');
     const maritalStatusFilter = document.querySelector('[data-kt-customer-table-filter="marital_status"]');
+    const sourceFilter = document.querySelector('[data-kt-customer-table-filter="source"]');
     const dateFilter = document.querySelector('[data-kt-customer-table-filter="created_at"]');
     const resetBtn = document.querySelector('[data-kt-customer-table-filter="reset"]');
     const filterBtn = document.querySelector('[data-kt-customer-table-filter="filter"]');
@@ -400,7 +430,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Show loading state
         tbody.innerHTML = `
             <tr>
-                <td colspan="8" class="text-center py-10">
+                <td colspan="9" class="text-center py-10">
                     <div class="d-flex flex-column align-items-center">
                         <div class="spinner-border text-primary mb-3" role="status">
                             <span class="visually-hidden">Loading...</span>
@@ -416,6 +446,7 @@ document.addEventListener('DOMContentLoaded', function() {
             search: searchInput.value,
             city_id: cityFilter ? cityFilter.value : '',
             marital_status: maritalStatusFilter ? maritalStatusFilter.value : '',
+            source: sourceFilter ? sourceFilter.value : '',
             created_at: dateFilter ? dateFilter.value : ''
         };
 
@@ -477,7 +508,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Filter error:', error);
             tbody.innerHTML = `
                 <tr>
-                    <td colspan="8" class="text-center py-10">
+                    <td colspan="9" class="text-center py-10">
                         <div class="d-flex flex-column align-items-center">
                             <div class="text-danger fs-1 mb-5">
                                 <i class="ki-duotone ki-cross-circle fs-1">
@@ -534,6 +565,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         search: searchInput.value,
                         city_id: cityFilter ? cityFilter.value : '',
                         marital_status: maritalStatusFilter ? maritalStatusFilter.value : '',
+                        source: sourceFilter ? sourceFilter.value : '',
                         created_at: dateFilter ? dateFilter.value : '',
                         page: page
                     };
@@ -552,7 +584,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Show loading
                     tbody.innerHTML = `
                         <tr>
-                            <td colspan="8" class="text-center py-10">
+                            <td colspan="9" class="text-center py-10">
                                 <div class="d-flex flex-column align-items-center">
                                     <div class="spinner-border text-primary mb-3" role="status">
                                         <span class="visually-hidden">Loading...</span>
@@ -639,6 +671,414 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initial attachment of pagination handlers and menus
     attachPaginationHandlers();
     reinitializeMenus();
+});
+</script>
+@endpush
+
+<!-- Modal for Available Offers -->
+<div class="modal fade" id="offersModal" tabindex="-1" aria-labelledby="offersModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="offersModalLabel">
+                    <i class="ki-duotone ki-bank fs-2 me-2">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                    </i>
+                    {{ __('dashboard.available_offers') }}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="offersContent">
+                    <!-- Loading state -->
+                    <div class="d-flex justify-content-center py-10" id="offersLoading">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">{{ __('dashboard.loading_offers') }}</span>
+                        </div>
+                        <span class="ms-3">{{ __('dashboard.loading_offers') }}</span>
+                    </div>
+
+                    <!-- Offers will be loaded here -->
+                    <div id="offersList" style="display: none;"></div>
+
+                    <!-- Error state -->
+                    <div id="offersError" style="display: none;" class="text-center py-10">
+                        <div class="text-danger fs-1 mb-5">
+                            <i class="ki-duotone ki-cross-circle fs-1">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                        </div>
+                        <h3 class="text-danger">{{ __('dashboard.error_loading_offers') }}</h3>
+                        <p class="text-muted" id="errorMessage"></p>
+                        <button type="button" class="btn btn-primary" id="retryLoadOffers">
+                            <i class="ki-duotone ki-arrows-circle fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                            {{ __('dashboard.retry') }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let currentCustomerId = null;
+
+    // Handle view offers button click
+    function attachOffersHandlers() {
+        document.querySelectorAll('.view-offers-btn').forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                currentCustomerId = this.getAttribute('data-customer-id');
+                loadCustomerOffers(currentCustomerId);
+
+                // Show modal
+                const modal = new bootstrap.Modal(document.getElementById('offersModal'));
+                modal.show();
+            });
+        });
+    }
+
+    // Load customer offers
+    function loadCustomerOffers(customerId) {
+        // Reset modal state
+        document.getElementById('offersLoading').style.display = 'flex';
+        document.getElementById('offersList').style.display = 'none';
+        document.getElementById('offersError').style.display = 'none';
+
+        // Get customer data first
+        fetch(`/customers/${customerId}/data`)
+            .then(response => response.json())
+            .then(customerData => {
+                if (!customerData.success) {
+                    throw new Error(customerData.message || 'Failed to get customer data');
+                }
+
+                // Prepare API request data
+                const apiData = {
+                    header: {
+                        sender: 'Fintech',
+                        receiver: 'RB',
+                        timestamp: Date.now()
+                    },
+                    productCode: 'PL',
+                    gosiTimeStamp: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),
+                    hasRbRelationship: 'N',
+                    relationshipName: null,
+                    militaryRank: null,
+                    militaryRankDescription: null,
+                    customerDetails: {
+                        idInformation: customerData.customer.id_information,
+                        educationLevel: customerData.customer.education_level,
+                        maritalStatus: customerData.customer.marital_status,
+                        dateOfBirth: customerData.customer.date_of_birth.split('T')[0],
+                        mobilePhoneNumber: '+9665' + customerData.customer.mobile_phone.slice(-8),
+                        email: customerData.customer.email,
+                        city: customerData.customer.city_id,
+                        postCode: customerData.customer.post_code,
+                        numberOfDependents: customerData.customer.dependents
+                    },
+                    customerExpenses: {
+                        foodExpense: customerData.customer.food_expense,
+                        housingExpense: customerData.customer.housing_expense,
+                        utilities: customerData.customer.utilities,
+                        insurance: customerData.customer.insurance,
+                        healthcareService: customerData.customer.healthcare_service,
+                        transportationExpense: customerData.customer.transportation_expense,
+                        educationExpense: customerData.customer.education_expense,
+                        domesticHelp: customerData.customer.domestic_help,
+                        futureExpense: customerData.customer.future_expense,
+                        mps: customerData.customer.mps,
+                        totalExpenses: customerData.customer.total_expenses
+                    },
+                    loanDetails: {
+                        purposeOfLoan: customerData.customer.purpose_of_loan,
+                        homeOwnership: customerData.customer.home_ownership,
+                        residentialType: customerData.customer.residential_type
+                    }
+                };
+
+                // Call initial offer API
+                return fetch('/api/offer/initial-offer', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Request-Id': '13', // Use successful response template
+                        'X-API-Key': '{{ config("app.api_secret_key") }}'
+                    },
+                    body: JSON.stringify(apiData)
+                });
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('API Response:', data); // Debug log
+                document.getElementById('offersLoading').style.display = 'none';
+
+                if (data.status === 200 && data.response && data.response.initialOffer) {
+                    // Convert single offer object to array for consistency
+                    displayOffers([data.response.initialOffer], customerId);
+                } else {
+                    // Show no offers message
+                    document.getElementById('offersList').innerHTML = `
+                        <div class="text-center py-10">
+                            <div class="text-muted fs-1 mb-5">
+                                <i class="ki-duotone ki-information fs-1">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                    <span class="path3"></span>
+                                </i>
+                            </div>
+                            <div class="text-muted fs-4 fw-bold">{{ __('dashboard.no_offers_available') }}</div>
+                        </div>
+                    `;
+                    document.getElementById('offersList').style.display = 'block';
+                }
+            })
+            .catch(error => {
+                console.error('Error loading offers:', error);
+                document.getElementById('offersLoading').style.display = 'none';
+                document.getElementById('offersError').style.display = 'block';
+
+                // Update error message
+                const errorMessageElement = document.getElementById('errorMessage');
+                if (errorMessageElement) {
+                    errorMessageElement.textContent = error.message;
+                }
+            });
+    }
+
+    // Display offers in modal
+    function displayOffers(offers, customerId) {
+        const offersList = document.getElementById('offersList');
+
+        if (!offers || offers.length === 0) {
+            offersList.innerHTML = `
+                <div class="text-center py-10">
+                    <div class="text-muted fs-1 mb-5">
+                        <i class="ki-duotone ki-information fs-1">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                            <span class="path3"></span>
+                        </i>
+                    </div>
+                    <h3 class="text-muted">{{ __('dashboard.no_offers_available') }}</h3>
+                </div>
+            `;
+        } else {
+            let offersHtml = '';
+            offers.forEach(offer => {
+                offersHtml += `
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-4">
+                                <div>
+                                    <h5 class="card-title mb-2">{{ __('dashboard.offer_details') }}</h5>
+                                    <span class="badge badge-light-success">${offer.offerId}</span>
+                                </div>
+                                <button class="btn btn-primary apply-offer-btn" data-offer-id="${offer.offerId}" data-customer-id="${customerId}">
+                                    <i class="ki-duotone ki-check fs-2">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                    </i>
+                                    {{ __('dashboard.apply_now') }}
+                                </button>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">{{ __('dashboard.maximum_amount') }}:</label>
+                                        <div class="text-success fs-4 fw-bold">${offer.maximumEligibilityAmount?.toLocaleString()} {{ __('dashboard.sar') }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">{{ __('dashboard.minimum_amount') }}:</label>
+                                        <div class="text-primary fs-5">${offer.minimumEligibilityAmount?.toLocaleString()} {{ __('dashboard.sar') }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">{{ __('dashboard.installments_range') }}:</label>
+                                        <div class="text-info">${offer.minimumNumberOfInstallments} - ${offer.maximumNumberOfInstallments} {{ __('dashboard.months') }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">{{ __('dashboard.offer_validity') }}:</label>
+                                        <div class="text-warning">${offer.offerValidity} {{ __('dashboard.days') }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            offersList.innerHTML = offersHtml;
+
+            // Attach apply offer handlers
+            attachApplyOfferHandlers();
+        }
+
+        offersLoading.style.setProperty('display', 'none', 'important');
+        offersList.style.display = 'block';
+    }
+
+    // Handle apply offer button click
+    function attachApplyOfferHandlers() {
+        document.querySelectorAll('.apply-offer-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                const offerId = this.getAttribute('data-offer-id');
+                const customerId = this.getAttribute('data-customer-id');
+                applyForOffer(offerId, customerId);
+            });
+        });
+    }
+
+    // Apply for offer
+    function applyForOffer(offerId, customerId) {
+        Swal.fire({
+            title: '{{ __('dashboard.apply_now') }}',
+            text: `{{ __('dashboard.confirm_apply_offer') }} ${offerId}?`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: '{{ __('dashboard.yes_apply') }}',
+            cancelButtonText: '{{ __('dashboard.cancel') }}',
+            customClass: {
+                confirmButton: 'btn btn-primary',
+                cancelButton: 'btn btn-secondary'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Show loading state
+                Swal.fire({
+                    title: '{{ __('dashboard.processing') }}',
+                    text: '{{ __('dashboard.submitting_application') }}',
+                    icon: 'info',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                // Send request to decision API
+                fetch(`/api/offer/initial-offer/${offerId}/decision`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-Key': '{{ config("app.api_secret_key") }}',
+                        'X-Request-Id': '21'
+                    },
+                    body: JSON.stringify({
+                        decision: 'ACCEPT',
+                        offerId: offerId,
+                        customer_id: customerId,
+                        timestamp: Math.floor(Date.now() / 1000)
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Decision API Response:', data);
+
+                    if (data.status === 200 || data.status === 'success') {
+                        Swal.fire({
+                            title: '{{ __('dashboard.success') }}',
+                            text: '{{ __('dashboard.offer_application_submitted') }}',
+                            icon: 'success',
+                            confirmButtonText: '{{ __('dashboard.ok') }}',
+                            customClass: {
+                                confirmButton: 'btn btn-primary'
+                            }
+                        });
+                    } else {
+                        throw new Error(data.message || 'Application submission failed');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error submitting application:', error);
+                    Swal.fire({
+                        title: '{{ __('dashboard.error') }}',
+                        text: error.message || '{{ __('dashboard.application_submission_failed') }}',
+                        icon: 'error',
+                        confirmButtonText: '{{ __('dashboard.ok') }}',
+                        customClass: {
+                            confirmButton: 'btn btn-primary'
+                        }
+                    });
+                });
+
+                // Close the modal properly
+                const modalInstance = bootstrap.Modal.getInstance(document.getElementById('offersModal'));
+                if (modalInstance) {
+                    modalInstance.hide();
+                }
+            }
+        });
+    }
+
+    // Retry loading offers
+    document.getElementById('retryLoadOffers').addEventListener('click', function() {
+        if (currentCustomerId) {
+            loadCustomerOffers(currentCustomerId);
+        }
+    });
+
+    // Initial attachment
+    attachOffersHandlers();
+
+    // Re-attach handlers after AJAX updates
+    const originalReattachEventHandlers = window.reattachEventHandlers;
+    window.reattachEventHandlers = function() {
+        if (originalReattachEventHandlers) {
+            originalReattachEventHandlers();
+        }
+        attachOffersHandlers();
+    };
+
+    // Add event delegation for AJAX-loaded offer buttons
+    document.addEventListener('click', function(e) {
+        if (e.target && e.target.classList.contains('view-offers-btn')) {
+            e.preventDefault();
+            const customerId = e.target.getAttribute('data-customer-id');
+
+            // Show modal
+            const modal = new bootstrap.Modal(document.getElementById('offersModal'));
+            modal.show();
+
+            // Load offers
+            loadCustomerOffers(customerId);
+        }
+    });
+
+    // Fix modal backdrop issue
+    const offersModal = document.getElementById('offersModal');
+    if (offersModal) {
+        offersModal.addEventListener('hidden.bs.modal', function () {
+            // Remove any remaining backdrops
+            const backdrops = document.querySelectorAll('.modal-backdrop');
+            backdrops.forEach(backdrop => backdrop.remove());
+
+            // Ensure body classes are cleaned up
+            document.body.classList.remove('modal-open');
+            document.body.style.removeProperty('overflow');
+            document.body.style.removeProperty('padding-right');
+        });
+
+        offersModal.addEventListener('hide.bs.modal', function () {
+            // Clean up any lingering backdrops before hiding
+            const backdrops = document.querySelectorAll('.modal-backdrop');
+            backdrops.forEach(backdrop => backdrop.remove());
+        });
+    }
 });
 </script>
 @endpush

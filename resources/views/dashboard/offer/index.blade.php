@@ -535,6 +535,60 @@ document.addEventListener('DOMContentLoaded', function() {
     reinitializeMenus();
     reinitializeAsideMenu();
     // initializeSimpleMenus();
+
+    // Additional initialization after page load
+    setTimeout(() => {
+        reinitializeAsideMenu();
+        console.log('Delayed aside menu initialization for offers page');
+    }, 200);
+
+    // Force aside menu visibility
+    const asideMenu = document.querySelector('#kt_aside_menu');
+    if (asideMenu) {
+        asideMenu.style.display = 'block';
+        asideMenu.style.visibility = 'visible';
+    }
+
+    // Ensure aside menu items are visible
+    const asideMenuItems = document.querySelectorAll('#kt_aside_menu .menu-item');
+    asideMenuItems.forEach(item => {
+        item.style.display = 'block';
+        item.style.visibility = 'visible';
+    });
+});
+
+// Additional window load event to ensure aside menu is properly initialized
+window.addEventListener('load', function() {
+    setTimeout(() => {
+        // Force reinitialize aside menu on window load
+        const asideMenu = document.querySelector('#kt_aside_menu');
+        if (asideMenu) {
+            // Make sure aside menu is visible
+            asideMenu.style.display = 'block';
+            asideMenu.style.visibility = 'visible';
+
+            // Reinitialize KTMenu for aside
+            if (typeof KTMenu !== 'undefined') {
+                if (asideMenu._menu) {
+                    asideMenu._menu.dispose();
+                }
+                new KTMenu(asideMenu);
+                console.log('Window load: Aside menu reinitialized');
+            }
+        }
+
+        // Ensure all menu items are visible
+        const menuItems = document.querySelectorAll('#kt_aside_menu .menu-item');
+        menuItems.forEach(item => {
+            item.style.display = 'block';
+            item.style.visibility = 'visible';
+        });
+
+        // Reinitialize the entire layout if available
+        if (typeof KT !== 'undefined' && KT.init) {
+            KT.init();
+        }
+    }, 300);
 });
 
 // Filter functions

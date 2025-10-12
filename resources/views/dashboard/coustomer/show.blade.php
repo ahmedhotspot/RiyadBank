@@ -70,20 +70,25 @@
                                 </h2>
                                 <div class="text-muted fs-6 mb-5">{{ __('dashboard.customer_id') }}: {{ $customer->id }}</div>
 
-                                @if($customer->marital_status)
-                                    @php
-                                        $statusColors = [
-                                            'Single' => 'primary',
-                                            'Married' => 'success',
-                                            'Divorced' => 'warning',
-                                            'Widowed' => 'secondary'
-                                        ];
-                                        $color = $statusColors[$customer->marital_status] ?? 'primary';
-                                    @endphp
-                                    <span class="badge badge-light-{{ $color }} fs-7 fw-bold">
-                                        {{ $customer->marital_status }}
-                                    </span>
-                                @endif
+                                <div class="d-flex flex-wrap gap-2 mb-3">
+                                    @if($customer->marital_status)
+                                        @php
+                                            $statusColors = [
+                                                'Single' => 'primary',
+                                                'Married' => 'success',
+                                                'Divorced' => 'warning',
+                                                'Widowed' => 'secondary'
+                                            ];
+                                            $color = $statusColors[$customer->marital_status] ?? 'primary';
+                                        @endphp
+                                        <span class="badge badge-light-{{ $color }} fs-7 fw-bold">
+                                            {{ $customer->marital_status }}
+                                        </span>
+                                    @endif
+
+                                    <!-- Customer Source Badge -->
+                                    {!! $customer->source_badge !!}
+                                </div>
                             </div>
                         </div>
                         <!--end::Customer Avatar & Basic Info-->
