@@ -36,7 +36,7 @@
     <td>
         <div class="d-flex flex-column">
             <span class="text-dark fw-bold fs-6">{{ $log->created_at->format('d M Y') }}</span>
-            <span class="text-muted fw-semibold fs-7">{{ $log->created_at->format('H:i:s') }}</span>
+            <span class="text-muted fw-semibold fs-7">{{ $log->created_at->format('h:i:s:a') }}</span>
         </div>
     </td>
     <!--end::Created Date-->
