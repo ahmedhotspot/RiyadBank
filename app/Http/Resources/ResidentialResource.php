@@ -19,6 +19,8 @@ class ResidentialResource extends JsonResource
             'langId' => $this->langId,
             'residentialRegion' => $this->residentialRegion,
             'residentialRegionCode' => $this->residentialRegionCode,
+            'created_at' => $this->created_at->format('d M Y, H:i'),
+            'updated_at' => $this->updated_at->format('d M Y, H:i'),
         ];
     }
 }

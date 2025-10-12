@@ -18,6 +18,8 @@ class OwnershipResource extends JsonResource
             'id' => $this->id,
             'value' => $this->value,
             'description' => $this->description,
+            'created_at' => $this->created_at->format('d M Y, H:i'),
+            'updated_at' => $this->updated_at->format('d M Y, H:i'),
         ];
     }
 }
