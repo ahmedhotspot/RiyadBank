@@ -228,7 +228,7 @@
                                         <!--begin::Input group-->
                                         <div class="mb-10 fv-row">
                                             <label class="required form-label">{{ __('dashboard.post_code') }}</label>
-                                            <input type="text" name="post_code" class="form-control form-control-solid" placeholder="{{ __('dashboard.enter_post_code') }}" value="{{ old('post_code') }}" />
+                                            <input type="number" name="post_code" class="form-control form-control-solid" placeholder="{{ __('dashboard.enter_post_code') }}" value="{{ old('post_code') }}" />
                                             @error('post_code')
                                                 <div class="fv-plugins-message-container">
                                                     <div class="fv-help-block"><span role="alert">{{ $message }}</span></div>
