@@ -25,8 +25,8 @@ class OfferResource extends JsonResource
             'offer_validity' => $this->offer_validity,
             'profit_rate' => $this->profit_rate,
             'formatted_status' => $this->formatted_status,
-            'created_at' => $this->created_at->format('d M Y, H:i'),
-            'updated_at' => $this->updated_at->format('d M Y, H:i'),
+            'created_at' => $this->created_at? $this->created_at->timezone('Asia/Riyadh')->format('d M Y, h:i:s A')  : null,
+            'updated_at' => $this->updated_at? $this->updated_at->timezone('Asia/Riyadh')->format('d M Y, h:i:s A')  : null,
 
         ];
     }

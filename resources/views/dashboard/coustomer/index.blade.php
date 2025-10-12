@@ -291,7 +291,7 @@
                                     <td>
                                         <div class="d-flex flex-column">
                                             <span class="text-gray-800 fw-bold">{{ $customer->created_at->format('d M Y') }}</span>
-                                            <span class="text-muted fs-7">{{ $customer->created_at->format('H:i') }}</span>
+                                            <span class="text-muted fs-7">{{ $customer->created_at->format('h:i:s:a') }}</span>
                                         </div>
                                     </td>
                                     <!--end::Date-->
