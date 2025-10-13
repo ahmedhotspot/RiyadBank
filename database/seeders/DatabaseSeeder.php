@@ -13,14 +13,14 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            // UserSeeder::class,
-            // MockApiResponsesSeeder::class,
-            // CustomerSeeder::class,
-            // OfferSeeder::class,
-            // ApiCallLogSeeder::class,
-            // CitySeeder::class,
-            // ResidentialSeeder::class,
-            // PurposeSeeder::class,
+            UserSeeder::class,
+            MockApiResponsesSeeder::class,
+            CustomerSeeder::class,
+            OfferSeeder::class,
+            ApiCallLogSeeder::class,
+            CitySeeder::class,
+            ResidentialSeeder::class,
+            PurposeSeeder::class,
             OwnershipSeeder::class,
         ]);
     }
